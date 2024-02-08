@@ -60,6 +60,7 @@ public class ProductController {
                 context.status(201);
             }catch(JsonProcessingException | SellerException e){
                 e.printStackTrace();
+                context.result(e.getMessage());
                 context.status(400);
             }
         });
@@ -72,8 +73,10 @@ public class ProductController {
                 context.status(201);
                 context.json(newProduct);
             }catch(JsonProcessingException e){
+                e.printStackTrace();
                 context.status(400);
             }catch(ProductInfoException e){
+                e.printStackTrace();
                 context.result(e.getMessage());
                 context.status(400);
             }

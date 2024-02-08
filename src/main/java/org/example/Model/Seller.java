@@ -1,5 +1,7 @@
 package org.example.Model;
 
+import java.util.Objects;
+
 public class Seller {
     private String sellername;
 
@@ -18,6 +20,19 @@ public Seller(String sellername){
 
     public void setSellername(String sellername) {
         this.sellername = sellername;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Seller)) return false;
+        Seller seller = (Seller) o;
+        return Objects.equals(sellername, seller.sellername);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sellername);
     }
 
     /** This code is used to convert Seller objects into a String (displayable format) */

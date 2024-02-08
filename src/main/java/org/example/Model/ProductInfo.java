@@ -59,7 +59,7 @@ public class ProductInfo {
         if (!(o instanceof ProductInfo)) return false;
         ProductInfo that = (ProductInfo) o;
         return id == that.id && Double.compare(price, that.price) == 0 &&
-                Objects.equals(name, that.name) && Objects.equals(sellername, that.sellername);
+                name.equals(that.name) && sellername.equals(that.sellername);
     }
 
     @Override
@@ -67,9 +67,7 @@ public class ProductInfo {
         return Objects.hash(id, name, price, sellername);
     }
 
-    /**
-     * This code is used to convert ProductInfo objects into a String (displayable format)
-     */
+    /** This code is used to convert ProductInfo objects into a String (displayable format) */
     @Override
     public String toString() {
         return "ProductInfo{" +

@@ -1,11 +1,11 @@
 package org.example.Service;
 
 import org.example.Exception.ProductInfoException;
+import org.example.Exception.SellerException;
 import org.example.Main;
 import org.example.Model.ProductInfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /** Class ProductService handles the application functionality for Products
@@ -15,11 +15,11 @@ public class ProductService {
 
     /** Dependency Injection */
     SellerService sellerService;
-    List<ProductInfo> ProductinfoList;
+   List<ProductInfo> ProductinfoList;
 
     public ProductService(SellerService sellerService){
         this.sellerService = sellerService;
-        ProductinfoList = new ArrayList<>();
+        this.ProductinfoList = new ArrayList<>();
     }
 
     public List<ProductInfo> getProductinfo() {
@@ -27,17 +27,26 @@ public class ProductService {
     }
 
     /** This method: handles the Product addition and throws the ProductInfoException at the end if
-     * at least one variable did not pass the validation test  */
+     * either if Product or Seller name is blank or Product name already exists  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
-        if (p.getName() == null || p.getSellername() == null) {
-            throw new ProductInfoException("Product name and Seller name cannot be blank");
+        if (p.getName().length() < 1 || p.getSellername().length() < 1) {
+            Main.log.warn("ADD: Product or Seller name are missing: "
+                    + p.getName() + " |" + p.getSellername());
+            throw new ProductInfoException("Product name or Seller name cannot be blank");
         }
-        long id = (long) (Math.random() * Long.MAX_VALUE);
-        p.setId(id);
-        Main.log.info("ADD: Attempting to add a Product: "+id+"| "+p.getName()+" |"+ p.getPrice());
-        ProductinfoList.add(p);
-        return p;
+
+        if (ProductinfoList.contains(p)){
+            Main.log.warn("ADD: Product name already exists " + p.getName());
+            throw new ProductInfoException("Product name already exists");
+        } else {
+            long id = (long) (Math.random() * Long.MAX_VALUE);
+            p.setId(id);
+            Main.log.info("ADD: Attempting to add a Product: " + id + "| "
+                    + p.getName() + " |" + p.getPrice() + " |" + p.getSellername());
+            ProductinfoList.add(p);
+            return p;
+        }
     }
 
     public ProductInfo getProductById(Long id){

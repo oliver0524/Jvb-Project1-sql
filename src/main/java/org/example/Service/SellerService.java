@@ -21,14 +21,21 @@ public class SellerService {
         /** This method: handles the Seller addition and throws the SellerException at the end if
          * at least one variable did not pass the validation test  */
         public void addSeller (Seller s) throws SellerException {
-            Main.log.info("ADD: Attempting to add a Seller." + s);
+            Main.log.info("ADD: Attempting to add a Seller:" + s);
 
-            if (s.getSellername() == null) {
+            if (s.getSellername().length() < 1) {
                 Main.log.warn("ADD: Seller name is missing: " + s.getSellername());
-                throw new SellerException("Seller name is blank");
+                throw new SellerException("Seller name cannot be blank");
             }
-            sellerSet.add(s);
+
+            if (sellerSet.contains(s)){
+                Main.log.warn("ADD: Seller name already exists: " + s.getSellername());
+                throw new SellerException("Seller name already exists");
+            } else {
+                sellerSet.add(s);
+            }
         }
+
         /** This method handles the 'view' action and displays all Seller objects from the Seller Set */
         public LinkedHashSet<Seller> getAllSellers () {
             Main.log.info("VIEW: List of all Sellers in the collection: " + sellerSet);
