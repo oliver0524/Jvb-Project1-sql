@@ -8,16 +8,19 @@ public Seller(String sellername){
     this.sellername = sellername;
     }
 
+    public Seller(){
+    }
+
 /** Setters and getters for the Seller class variables. No usage annotations are ok */
-public String getSellerName() {
-    return sellername;
-}
+    public String getSellername() {
+        return sellername;
+    }
 
-public void setSellername(String name) {
-    this.sellername = sellername;
-}
+    public void setSellername(String sellername) {
+        this.sellername = sellername;
+    }
 
-/** This code is used to convert Seller objects into a String (displayable format) */
+    /** This code is used to convert Seller objects into a String (displayable format) */
 @Override
 public String toString() {
     return "\nSeller Name " + sellername;

@@ -17,6 +17,9 @@ public class ProductInfo {
         this.sellername = sellername;
     }
 
+    public ProductInfo(){
+    }
+
     /** Setters and getters for the ProductInfo class variables. No usage annotations are ok */
     public long getId() {
         return id;

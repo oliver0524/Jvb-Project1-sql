@@ -23,8 +23,8 @@ public class SellerService {
         public void addSeller (Seller s) throws SellerException {
             Main.log.info("ADD: Attempting to add a Seller." + s);
 
-            if (s.getSellerName() == null) {
-                Main.log.warn("ADD: Seller name is missing: " + s.getSellerName());
+            if (s.getSellername() == null) {
+                Main.log.warn("ADD: Seller name is missing: " + s.getSellername());
                 throw new SellerException("Seller name is blank");
             }
             sellerSet.add(s);

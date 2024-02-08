@@ -7,7 +7,7 @@ import org.example.Service.SellerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** main method, instantiates the ProductController and start the api.*/
+/** main method, instantiates the ProductController and starts the api.*/
 public class Main {
 
     public static Logger log = LoggerFactory.getLogger(Main.class);

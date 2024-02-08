@@ -59,6 +59,7 @@ public class ProductController {
                 sellerService.addSeller(s);
                 context.status(201);
             }catch(JsonProcessingException | SellerException e){
+                e.printStackTrace();
                 context.status(400);
             }
         });
