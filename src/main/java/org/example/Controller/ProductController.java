@@ -13,10 +13,7 @@ import org.example.Service.ProductService;
 import org.example.Service.SellerService;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.example.Service.ProductService.*;
 
@@ -43,7 +40,7 @@ public class ProductController {
                 }
         );
         api.get("/seller", context -> {
-            LinkedHashSet<Seller> sellerSet = sellerService.getAllSellers();
+            Set<String> sellerSet = sellerService.getAllSellers();
             context.json(sellerSet);
         });
 
@@ -73,10 +70,10 @@ public class ProductController {
                 context.status(201);
                 context.json(newProduct);
             }catch(JsonProcessingException e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 context.status(400);
             }catch(ProductInfoException e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 context.result(e.getMessage());
                 context.status(400);
             }
@@ -84,7 +81,6 @@ public class ProductController {
 
         /** If product id is found, respond with status 200
          *  If product id is not found, respond with status 404 */
-
         api.get("product/{id}", context -> {
             long id = Long.parseLong(context.pathParam("id"));
             ProductInfo p = productService.getProductById(id);
@@ -96,166 +92,33 @@ public class ProductController {
             }
         });
 
+        /** If product id is found, delete and respond with status 200
+         *  If product id is not found, respond with status 200 anyway (this is a convention) */
+        api.delete("product/{id}", context -> {
+            long id = Long.parseLong(context.pathParam("id"));
+            productService.deleteProductById(id);
+            context.status(200);
+        });
+
+        /** If product id is found, update and respond with status 200 */
+        api.put("product/{id}", context -> {
+            try{
+                long id = Long.parseLong(context.pathParam("id"));
+                ObjectMapper om = new ObjectMapper();
+                ProductInfo p = om.readValue(context.body(), ProductInfo.class);
+                p.setId(id);
+                productService.updateProductById(p);
+                context.json(p);
+                context.status(200);
+            }catch(ProductInfoException e){
+            context.result(e.getMessage());
+            context.status(400);
+            }
+        });
+
         return api;
     }
 
 }
 
-//    public static void getAllSellersHandler(Context context){
-//        LinkedHashSet<String> sellerSet = getAllSellers();
-//        context.json(sellerSet);
-//    }
-//    public static void postSellerHandler(Context context) throws SellerException {
-//        ObjectMapper om = new ObjectMapper();
-//        try{
-//            Seller s = om.readValue(context.body(), Seller.class);
-//            SellerService.addSeller(String.valueOf(s));
-////            201 - resource created
-//            context.status(201);
-//        } catch (JsonProcessingException e) {
-////            Jackson was unable to parse the JSON due to user error
-//            context.status(400);
-//        }
-//    }
-//}
-
-
-//public class CLIParser {
-//
-//    /** ProductService scoped for the entire class (address is established for the ProductService)
-//     *  Methods from the ProductService class would be called here */
-//    org.example.Service.ProductService ProductService;
-//
-//    public CLIParser() {
-//        //constructor
-//        ProductService = new ProductService();
-//    }
-//
-//    /** Check if a valid command (out of the presented choices) is entered in the console
-//     * If not, throw the CLI Exception and ProductInfoException when appropriate */
-//    public String parseCommandReturnOutput(String command) throws CLIException, ProductInfoException {
-//        if (command.equals("A")) {
-//            return addAction();
-//        } else if (command.equals("V")) {
-//            return viewAction();
-//        } else if (command.equals("SN")) {
-//            return searchActionByName();
-//        } else if (command.equals("SF")) {
-//            return searchActionByFeature();
-//        } else if (command.equals("U")) {
-//            return updateAction();
-//        } else if (command.equals("D")) {
-//            return deleteAction();
-//        } else if (command.equals("E")) {
-//            System.exit(0);
-//            return "exit";
-//        } else {
-//            throw new CLIException("not a valid command");
-//        }
-//    }
-//
-//    /** Handles console interactions for the 'add' action. Calls the addProduct method
-//     * from the ProductService class. Also calls the toString method from the ProductInfo class.
-//     * This method accepts variables for a ProductInfo object from the console and throws exceptions
-//     * when input values do not pass validations */
-//    public String addAction() throws ProductInfoException {
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("* Input a Product name");
-//        String ProductName = sc.nextLine();
-//        System.out.println("* Input Product features");
-//        String ProductFeatures = sc.nextLine();
-//        System.out.println("* Input a price per item (must be a positive number)");
-////        the text version of the price
-//        String priceInputString = sc.nextLine();
-////        convert the text version of the price into a numeric (double) variable
-//        double ProductPrice = Double.parseDouble(priceInputString);
-//
-//        ProductService.addProduct(ProductName, ProductFeatures, ProductPrice);
-//        return "+++ Info for the " + ProductName + " Product has been added +++";
-//    }
-//
-//    /** Handles console interactions for the 'view' action. Calls the getAllProducts method
-//     * from the ProductService class. Also class the toString method from the ProductInfo class  */
-//    public String viewAction() {
-//        List<ProductInfo> Productinfo = ProductService.getAllProducts();
-//        return "<<< Here are your Product entries: " + Productinfo.toString();
-//    }
-//
-//    /** Handles console interactions for the 'search by Product name' action. Calls the getProductByName method
-//     // from the ProductService class. */
-//    // Search for a particular Product in the Product array
-//    public String searchActionByName() {
-//        Scanner sc = new Scanner(System.in);
-//        String ProductName = sc.nextLine();
-//        ProductInfo matchingProduct = ProductService.getProductByName(ProductName);
-//
-//        if (matchingProduct == null) {
-//            return "There was no matching Product found";
-//        } else {
-//            return "@@@ Here is the matching Product: " + matchingProduct.toString();
-//        }
-//    }
-//
-//    /** Handles console interactions for the 'search by feature' action. Calls the getProductByFeatures method
-//     // from the ProductService class. */
-//    // Search for a particular Product in the Product array
-//    public String searchActionByFeature() throws ProductInfoException {
-//        Scanner sc = new Scanner(System.in);
-//        String ProductFeature = sc.nextLine();
-//        List<ProductInfo> matchingProducts = ProductService.getProductByFeatures(ProductFeature);
-//
-//        if (matchingProducts == null || matchingProducts.isEmpty()) {
-//            return "There was no matching Product feature found";
-//        } else {
-//            StringBuilder result = new StringBuilder();
-//
-//            result.append ("@@@ Here is a list of Products with the "+ProductFeature+ " feature: " + matchingProducts.toString());
-//            return result.toString();
-//        }
-//    }
-//
-//    /** Handles console interactions for the 'update' action. Calls the getProductByFeatures method
-//     * from the ProductService class. */
-//    // Productinfo is an ArrayList containing product information
-//    public String updateAction() {
-//        Scanner sc = new Scanner(System.in);
-//        List<ProductInfo> Productinfo = ProductService.getAllProducts();
-//        System.out.println("Enter Product name from this list that you would like to update? " + Productinfo.toString());
-//        String ProductName = sc.nextLine();
-//        ProductInfo matchingProduct = ProductService.getProductByName(ProductName);
-//
-//        if (matchingProduct != null) {
-//            System.out.println("* Input Product features");
-//            String ProductFeatures = sc.nextLine();
-//            System.out.println("* Input a price per item (must be a positive number)");
-//            double ProductPrice = sc.nextDouble();
-//
-//            // Call the service to update the product with the provided input
-//            ProductInfo updatedProduct = ProductService.updateProduct(ProductName, ProductFeatures, ProductPrice);
-//
-//            if (updatedProduct == null) {
-//                return "There was no matching Product found";
-//            }
-//            return "%%% Here is the updated Product: " + updatedProduct.toString();
-//        }
-//    }
-//
-//    /** Handles console interactions for the 'delete' action. Calls the getAllProducts method
-//     // from the ProductService class. */
-//    public String deleteAction() {
-//        Scanner sc = new Scanner(System.in);
-//        List<ProductInfo> Productinfo = ProductService.getAllProducts();
-//        System.out.println("Enter Product name from this list that you would like to remove? " + Productinfo.toString());
-//        String ProductName = sc.nextLine();
-//
-//        int index = ProductService.deleteProductByName(ProductName);
-//
-//        if (index != -1) {
-//            System.out.println("Here is the updated list of Products: " + Productinfo.toString());
-//            return ("!!! Product " + ProductName + " was removed successfully !!!");
-//        } else {
-//            return "There was no matching Product found";
-//        }
-//    }
-//}
 

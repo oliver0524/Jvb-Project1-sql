@@ -11,7 +11,7 @@ public class SellerService {
 
     /** Class SellerService handles the application functionality for Sellers.
      * Methods here have functionality for the following actions: add, view all */
-    LinkedHashSet<Seller> sellerSet;
+    Set<Seller> sellerSet;
 
     public SellerService() {
         this.sellerSet = new LinkedHashSet<>();
@@ -36,10 +36,16 @@ public class SellerService {
             }
         }
 
-        /** This method handles the 'view' action and displays all Seller objects from the Seller Set */
-        public LinkedHashSet<Seller> getAllSellers () {
+        /**
+         * This method handles the 'view' action and displays all Seller objects from the Seller Set
+         */
+        public Set<String> getAllSellers () {
             Main.log.info("VIEW: List of all Sellers in the collection: " + sellerSet);
-            return sellerSet;
+            Set <String> sellerNames = new HashSet<>();
+            for (Seller seller : sellerSet){
+                sellerNames.add(seller.getSellername());
+            }
+            return sellerNames;
         }
     }
 

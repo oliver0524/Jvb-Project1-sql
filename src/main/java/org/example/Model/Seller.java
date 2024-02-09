@@ -38,6 +38,6 @@ public Seller(String sellername){
     /** This code is used to convert Seller objects into a String (displayable format) */
 @Override
 public String toString() {
-    return "\nSeller Name " + sellername;
+    return "\nSeller Name: " + sellername;
 }
 }

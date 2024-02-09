@@ -1,12 +1,12 @@
 package org.example.Service;
 
 import org.example.Exception.ProductInfoException;
-import org.example.Exception.SellerException;
 import org.example.Main;
 import org.example.Model.ProductInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /** Class ProductService handles the application functionality for Products
  * Methods here have functionality for the following actions: add, view, search, delete, exit
@@ -30,25 +30,53 @@ public class ProductService {
      * either if Product or Seller name is blank or Product name already exists  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
-        if (p.getName().length() < 1 || p.getSellername().length() < 1) {
-            Main.log.warn("ADD: Product or Seller name are missing: "
-                    + p.getName() + " |" + p.getSellername());
-            throw new ProductInfoException("Product name or Seller name cannot be blank");
-        }
-
-        if (ProductinfoList.contains(p)){
-            Main.log.warn("ADD: Product name already exists " + p.getName());
-            throw new ProductInfoException("Product name already exists");
-        } else {
+        if (inputValuesValidated(p)) {
             long id = (long) (Math.random() * Long.MAX_VALUE);
             p.setId(id);
             Main.log.info("ADD: Attempting to add a Product: " + id + "| "
-                    + p.getName() + " |" + p.getPrice() + " |" + p.getSellername());
+                    + p.getName() + "| " + p.getPrice() + "| " + p.getSellername());
             ProductinfoList.add(p);
             return p;
         }
+        return null;
     }
 
+    /** Method to validate all input values based on requirements */
+    public boolean inputValuesValidated(ProductInfo p) throws ProductInfoException {
+        if (p.getName().length() < 1 || p.getSellername().length() < 1){
+            Main.log.warn("ADD: Product or Seller name are missing: "
+                        + p.getName() + "| " + p.getSellername());
+                throw new ProductInfoException("Product name or Seller name cannot be blank");
+            } else if (p.getPrice() <= 0) {
+                Main.log.warn("ADD: Price is <= 0: " + p.getPrice());
+                throw new ProductInfoException("Product price should be greater than 0");
+            } else if (ProductinfoList.contains(p)){
+                Main.log.warn("ADD: Product name is duplicate"
+                        + p.getName());
+                throw new ProductInfoException("Product name already exists");
+            } else if (checkIfSellerDoesNotExist(p)) {
+            Main.log.warn("ADD: Should be an existing Seller: " + p.getSellername());
+            throw new ProductInfoException("Seller does not exist in the Seller set");
+        } else {
+            return true;
+        }
+    }
+
+    /** Method to check if seller exists in the Seller set */
+    public boolean checkIfSellerDoesNotExist(ProductInfo p){
+        // Get seller names from sellerService
+        Set<String> sellerNames = sellerService.getAllSellers();
+
+        // Check if the seller name of productInfo matches any seller name
+        if (sellerNames.contains(p.getSellername())) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /** This method handles the 'view' action by product-id. The product-id is obtained from a corresponding
+     * post request (it's a randomly generated number) */
     public ProductInfo getProductById(Long id){
         for(int i = 0; i < ProductinfoList.size(); i++){
             ProductInfo currentProduct = ProductinfoList.get(i);
@@ -67,84 +95,44 @@ public class ProductService {
     }
 
 
-
-    /**  This method handles the 'search' action by a Product name. The loop iterates
-     * through each array entry until the match is found.
-     * If the match is found, return the Product name   */
-    public ProductInfo getProductByName(String name) {
-
-        for (int i = 0; i < ProductinfoList.size(); i++) {
+    /** This method handles the 'delete' action by product-id. The product-id is obtained from a corresponding
+     * post request (it's a randomly generated number) */
+    public void deleteProductById(Long id){
+        for(int i = 0; i < ProductinfoList.size(); i++){
             ProductInfo currentProduct = ProductinfoList.get(i);
-            if (currentProduct.getName().equals(name)) {
-                Main.log.info("SEARCH: Successful search for the Product: " + name);
-                return currentProduct;
+            if(currentProduct.getId() == id){
+                Main.log.info("DELETE: Successful delete for Product: " + currentProduct);
+                ProductinfoList.remove(i);
+                //return currentProduct;
             }
         }
-        Main.log.warn("SEARCH: Unsuccessful search for the Product: " + name);
-        return null ;
+        //return null;
     }
 
-    /**  This method handles the 'search' action by a Product feature. The loop iterates
-     * through each array entry until the match is found.
-     * Store all the Products with the matched feature in an array (type ArrayList)
-     * If the match is found, return the array (Products) that have the Searched feature   */
-//    public List<ProductInfo> getProductByFeatures(String feature) throws ProductInfoException {
-//        // Check if the feature is a single word
-//        if (feature.contains(" ")) {
-//            Main.log.warn("SEARCH: Invalid input. Feature should be a single word: "+feature);
-//            throw new ProductInfoException("Feature should be a single word");
-//        }
-//
-//        List<ProductInfo> matchingProducts = new ArrayList<>();
-//
-//        for(int i = 0; i < ProductinfoList.size(); i++){
-//            ProductInfo currentFeature = ProductinfoList.get(i);
-//            String[] featuresArray = currentFeature.getFeatures().split("[, ]");
-//
-//            if(Arrays.asList(featuresArray).contains(feature)){
-//                Main.log.info("SEARCH: Successful search for the feature: "+feature);
-//                matchingProducts.add(currentFeature);
-//            } else {
-//                Main.log.warn("SEARCH: Unsuccessful search for the feature: "+feature);
-//            }
-//        }
-//        return matchingProducts;
-//    }
+    /** This method handles the 'update' action by product-id. The product-id is obtained from a corresponding
+     * post request (it's a randomly generated number) */
+    public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
 
-    /** This method handles the 'update' action. Iterate through each array entry
-     * until the match is found. If the match is found , update the Product entry.
-     * if not found, return -1 to the CLIParser */
-    public ProductInfo updateProduct(String productname, double productprice) {
-
-        // for each name in the ProductInfo collection compare the name with the productname parm
-        for (ProductInfo name : ProductinfoList) {
-            if (name.getName().equals(productname)) {
-                // Update the product information
-                name.setPrice(productprice);
-                Main.log.info("UPDATE: product information updated for " + productname);
-                return (ProductInfo) ProductinfoList;
-            }
+        if (ProductinfoList == null) {
+            throw new ProductInfoException("Product List is empty");
         }
-        // Unsuccessful update
-        return null;  // Return null if a product is not found or not updated
-    }
-
-    /** This method handles the 'delete' action. Iterate through each array entry
-     * until the match is found. If the match is found , remove the Product entry.
-     * if not found, return -1 to the CLIParser */
-    public int deleteProductByName(String name){
 
         for(int i = 0; i < ProductinfoList.size(); i++){
             ProductInfo currentProduct = ProductinfoList.get(i);
-            if(currentProduct.getName().equals(name)){
-                ProductinfoList.remove(i);
-                Main.log.info("DELETE: Successful delete for Product: "+name);
-                return i;
-            } else {
-                Main.log.warn("DELETE: Unsuccessful delete for Product: "+name);
+            if(currentProduct.getId() == p.getId() && inputValuesValidated(p)){
+                currentProduct.setId(p.getId());
+                currentProduct.setName(p.getName());
+                currentProduct.setPrice(p.getPrice());
+                currentProduct.setSellername(p.getSellername());
+                Main.log.info("UPDATE: product information updated for: " + currentProduct);
+                return currentProduct;
             }
         }
-        return -1;
+        Main.log.info("UPDATE: product with the provided id is not found: " + p.getId());
+        throw new ProductInfoException("Product id is not found: " + p.getId());
+        //return null;
     }
+
+
 }
 
