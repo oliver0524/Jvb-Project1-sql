@@ -1,137 +1,190 @@
-import org.example.Exception.CLIException;
-import org.example.Exception.HotelInfoException;
+import org.example.Exception.ProductInfoException;
+import org.example.Exception.SellerException;
 import org.example.Main;
-import org.example.Model.HotelInfo;
-import org.example.Service.HotelService;
-import org.example.View.CLIParser;
+import org.example.Model.ProductInfo;
+import org.example.Model.Seller;
+import org.example.Service.ProductService;
+import org.example.Service.SellerService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-public class HotelServiceTest {
+public class ProductServiceTest {
 
-    HotelService hotelService;
+    ProductService ProductService;
+    SellerService SellerService;
+    long id = (long) (Math.random() * Long.MAX_VALUE);
 
     /** Instantiate an object before each test */
     @Before
     public void setUp() {
-        hotelService = new HotelService();
+        SellerService = new SellerService();
+        ProductService = new ProductService(SellerService);
+
     }
 
-    /** Verify that when the hotel service is first created, it is empty.*/
+    /** Verify that when the Product service is first created, it is empty.*/
     @Test
-    public void recipeServiceEmptyAtStart() {
-        List<HotelInfo> hotelinfo = hotelService.getAllHotels();
-        Assert.assertTrue(hotelinfo.size() == 0);
+    public void productServiceEmptyAtStart() {
+        List<ProductInfo> Productinfo = ProductService.getAllProducts();
+        Assert.assertTrue(Productinfo.size() == 0);
     }
 
-    /** Test if the "happy path" is working */
+
+    /** When price 0 or less is provided, the Product Info Exception should be thrown.*/
     @Test
-    public void hotelServiceAddHotel() {
-//        arrange
-        String testName = "name";
-        String testFeatures = "features";
-        Double testPrice = 1.0;
-//        act
+    public void inputProductInvalidPrice() {
+        ProductInfo p1 = new ProductInfo();
+        p1.setId(id);
+        p1.setName("Product");
+        p1.setSellername("SellerName");
+        p1.setPrice(0.0);
         try {
-            // if the addHotel method DOES throw an exception, the Assert.fail method is called
-            hotelService.addHotel(testName, testFeatures, testPrice);
-        } catch (HotelInfoException x) {
-            x.printStackTrace();
-            Assert.fail("Incorrectly thrown exception");
-        }
-    }
-
-    /** When price 0 or less is provided, the Hotel Info Exception should be thrown.*/
-    @Test
-    public void addHotelInvalidPrice() {
-        String name = "hotel";
-        String features = "features";
-        double price = 0.0;
-        try {
-            // if the addHotel method DOES NOT throw an exception, the Assert.fail method is called
-            hotelService.addHotel(name, features, price);
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            ProductService.addProduct(p1);
             Assert.fail("The Exception is not thrown when price is 0 or less");
-        } catch (HotelInfoException e) {
+        } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught HotelInfoException: " + e.getMessage());
+            Main.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
-    /** When hotel name is empty, the Hotel Info Exception should be thrown.*/
+    /** When Product name is empty, the Product Info Exception should be thrown.*/
     @Test
-    public void addHotelInvalidName() {
-        String name = "";
-        String features = "features";
-        double price = 1.0;
+    public void inputProductNameBlank() {
+        ProductInfo p1 = new ProductInfo();
+        //p1.setId(id);
+        p1.setName("");
+        p1.setSellername("SellerName");
+        p1.setPrice(1.0);
         try {
-            // if the addHotel method DOES NOT throw an exception, the Assert.fail method is called
-            hotelService.addHotel(name, features, price);
-            Assert.fail("The Exception is not thrown when hotel name is blank");
-        } catch (HotelInfoException e) {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            ProductService.addProduct(p1);
+            Assert.fail("The Exception is not thrown when Product name is blank");
+        } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught HotelInfoException: " + e.getMessage());
+            Main.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
-    /** When hotel features are empty, the Hotel Info Exception should be thrown.*/
+    /** When Seller name is empty in the Product service, the Product Info Exception should be thrown.*/
     @Test
-    public void addHotelEmptyFeatures() {
-        String name = "name";
-        String features = "";
-        double price = 2.0;
+    public void inputSellerNameBlank() {
+        ProductInfo p1 = new ProductInfo();
+        //p1.setId(id);
+        p1.setName("Product");
+        p1.setSellername("");
+        p1.setPrice(1.0);
         try {
-            // if the addHotel method DOES NOT throw an exception, the Assert.fail method is called
-            hotelService.addHotel(name, features, price);
-            Assert.fail("The Exception is not thrown when hotel features are empty");
-        } catch (HotelInfoException e) {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            ProductService.addProduct(p1);
+            Assert.fail("The Exception is not thrown when Product name is blank");
+        } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught HotelInfoException: " + e.getMessage());
+            Main.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
-        /** When invalid action is supplied, the CLI Exception should be thrown.*/
-        @Test
-        public void invalidAction() {
-            String action = "garbage";
-            CLIParser cliParser = new CLIParser();
-            try {
-                // if the main method DOES NOT throw an exception, the Assert.fail method is called
-                cliParser.parseCommandReturnOutput(action);
-                Assert.fail("The Exception is not thrown when invalid action is supplied");
-            } catch (CLIException | HotelInfoException e2) {
-                // Log the exception details
-                Main.log.info("Caught CLIException: " + e2.getMessage());
-            }
-        }
-
-    /** Test if appropriate messaging is displayed when invalid hotel name is requested through the search function.*/
+    /** When a duplicate Product is added, the Product Info Exception should be thrown.*/
     @Test
-    public void testGetHotelByNameWhenNotFound() {
+    public void duplicateProduct() throws ProductInfoException, SellerException {
+        Seller s1 = new Seller();
+        s1.setSellername("SellerName");
+        SellerService.addSeller(s1);
+
+        ProductInfo p1 = new ProductInfo();
+        //p1.setId(id);
+        p1.setName("Product1");
+        p1.setSellername("SellerName");
+        p1.setPrice(10.0);
+        ProductService.addProduct(p1);
+
+        ProductInfo p2 = new ProductInfo();
+        //p1.setId(id);
+        p2.setName("Product1");
+        p2.setSellername("SellerName");
+        p2.setPrice(10.0);
+        try {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            ProductService.addProduct(p2);
+            Assert.fail("The Exception is not thrown when Product name is not unique");
+        } catch (ProductInfoException e) {
+            // Log the exception details
+            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+        }
+    }
+
+    /** When a blank Seller is added, the Seller Exception should be thrown.*/
+    @Test
+    public void blankSeller() {
+        Seller s1 = new Seller();
+        s1.setSellername("");
+
+        try {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            SellerService.addSeller(s1);
+            Assert.fail("The Exception is not thrown when Seller name is blank");
+        } catch (SellerException e) {
+            // Log the exception details
+            Main.log.info("Caught SellerException: " + e.getMessage());
+        }
+    }
+
+    /** When a duplicate Seller is added, the Seller Exception should be thrown.*/
+    @Test
+    public void duplicateSeller() throws SellerException {
+        Seller s1 = new Seller();
+        s1.setSellername("SellerName1");
+        SellerService.addSeller(s1);
+
+        Seller s2 = new Seller();
+        s2.setSellername("SellerName1");
+        try {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            SellerService.addSeller(s2);
+            Assert.fail("The Exception is not thrown when Seller name is not unique");
+        } catch (SellerException e) {
+            // Log the exception details
+            Main.log.info("Caught SellerException: " + e.getMessage());
+        }
+    }
+
+     /** Test if appropriate messaging is displayed when a non-existent Seller is provided in the Product service*/
+    @Test
+    public void testNonExistentSeller() throws SellerException {
         // Arrange
-        String hotel1 = "hotel1";
-        String hotel2 = "hotel2";
+        Seller s1 = new Seller();
+        s1.setSellername("Seller1");
+        SellerService.addSeller(s1);
 
-        // if no errors are produced when the non-existent hotel is searched, the Assert.fail method is called
-        HotelInfo result = hotelService.getHotelByName("hotel3");
-        Assert.assertNull(result);
+        ProductInfo p1 = new ProductInfo();
+        //p1.setId(id);
+        p1.setName("Product");
+        p1.setSellername("Seller2");
+        p1.setPrice(10.0);
+        try {
+            // if no errors are produced when the non-existent Seller is added, the Assert.fail method is called
+            ProductService.addProduct(p1);
+        }catch (ProductInfoException e) {
+            // Log the exception details
+            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+        }
     }
 
-    /** Test if appropriate messaging is displayed when a multiple word search by feature is provided */
+    /** Test if GET is called on a non-existent product-id */
     @Test
-    public void testGetHotelByMultiWordFeature() {
+    public void testInvlaidProductId() {
         // Arrange
-        String feature = "two words";
 
         try {
-        // if no errors are produced when a multi-word feature is provided, the Assert.fail method is called
-        hotelService.getHotelByFeatures(feature);
-        Assert.fail("The Exception is not thrown when a multi-word feature is provided");
-        } catch (HotelInfoException e3) {
+        // if no errors are produced when a GET by a non-existent product id is performed, the Assert.fail method is called
+        ProductService.getProductById(id);
+        Assert.fail("The Exception is not thrown when a Search by a non-existent product id is performed");
+        } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught HotelInfoException for a multi-word feature: " + e3.getMessage());
+            Main.log.info("Caught ProductInfoException for a non-existent product-id: " + e.getMessage());
         }
     }
     }

@@ -22,11 +22,15 @@ public class ProductService {
         this.ProductinfoList = new ArrayList<>();
     }
 
+    public ProductService() {
+
+    }
+
     public List<ProductInfo> getProductinfo() {
         return ProductinfoList;
     }
 
-    /** This method: handles the Product addition and throws the ProductInfoException at the end if
+    /** This method: handles the Product addition (POST) and throws the ProductInfoException at the end if
      * either if Product or Seller name is blank or Product name already exists  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
@@ -75,19 +79,20 @@ public class ProductService {
     }
 
 
-    /** This method handles the 'view' action by product-id. The product-id is obtained from a corresponding
+    /** This method handles the 'GET' by product-id. The product-id is obtained from a corresponding
      * post request (it's a randomly generated number) */
-    public ProductInfo getProductById(Long id){
+    public ProductInfo getProductById(Long id) throws ProductInfoException {
         for(int i = 0; i < ProductinfoList.size(); i++){
             ProductInfo currentProduct = ProductinfoList.get(i);
             if(currentProduct.getId() == id){
                 return currentProduct;
             }
         }
-        return null;
+        throw new ProductInfoException ("Product ID is not found");
+        //return null;
     }
 
-    /** This method handles the 'view' action and displays all ProductInfo objects from
+    /** This method handles the 'GET' action and displays all ProductInfo objects from
      * the Productinfo list */
     public List<ProductInfo> getAllProducts(){
         Main.log.info("VIEW: List of all Products in the collection: "+ProductinfoList);
@@ -95,7 +100,7 @@ public class ProductService {
     }
 
 
-    /** This method handles the 'delete' action by product-id. The product-id is obtained from a corresponding
+    /** This method handles the 'DELETE' action by product-id. The product-id is obtained from a corresponding
      * post request (it's a randomly generated number) */
     public void deleteProductById(Long id){
         for(int i = 0; i < ProductinfoList.size(); i++){
@@ -109,7 +114,7 @@ public class ProductService {
         //return null;
     }
 
-    /** This method handles the 'update' action by product-id. The product-id is obtained from a corresponding
+    /** This method handles the 'PUT' action by product-id. The product-id is obtained from a corresponding
      * post request (it's a randomly generated number) */
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
 

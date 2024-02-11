@@ -17,7 +17,6 @@ public class SellerService {
         this.sellerSet = new LinkedHashSet<>();
     }
 
-
         /** This method: handles the Seller addition and throws the SellerException at the end if
          * at least one variable did not pass the validation test  */
         public void addSeller (Seller s) throws SellerException {

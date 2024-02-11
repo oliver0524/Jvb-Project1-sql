@@ -58,12 +58,12 @@ public class ProductInfo {
         if (this == o) return true;
         if (!(o instanceof ProductInfo)) return false;
         ProductInfo that = (ProductInfo) o;
-        return name.equals(that.name) && sellername.equals(that.sellername);
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, sellername);
+        return Objects.hash(name);
     }
 
     /** This code is used to convert ProductInfo objects into a String (displayable format) */

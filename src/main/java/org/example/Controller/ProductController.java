@@ -82,13 +82,14 @@ public class ProductController {
         /** If product id is found, respond with status 200
          *  If product id is not found, respond with status 404 */
         api.get("product/{id}", context -> {
-            long id = Long.parseLong(context.pathParam("id"));
-            ProductInfo p = productService.getProductById(id);
-            if(p == null){
-                context.status(404);
-            }else{
+            try{
+                long id = Long.parseLong(context.pathParam("id"));
+                ProductInfo p = productService.getProductById(id);
                 context.json(p);
                 context.status(200);
+            }catch(ProductInfoException e){
+                context.result(e.getMessage());
+                context.status(400);
             }
         });
 
@@ -111,8 +112,8 @@ public class ProductController {
                 context.json(p);
                 context.status(200);
             }catch(ProductInfoException e){
-            context.result(e.getMessage());
-            context.status(400);
+                context.result(e.getMessage());
+                context.status(400);
             }
         });
 

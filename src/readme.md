@@ -1,26 +1,45 @@
-# This application is called Hotel Service and designed for collecting hotel information, including 
-# hotel hotel name, features and price per night.
+# This application is using javalin service to initiate a a web server. 
+# The application is handling two models, Products and Sellers through http requests
 
-# Main functionality
-- Interacting with the application is done through the Command prompt (console). 
-- Interaction is achieved using these main action commands, which allow to work with the hotel information in the list:
-  - **Add** (information for a new hotel can be added);
-  - **View** (information for all hotels in the collection can be viewed)
-  - **Search** (detailed info is displayed for a hotel when searched by name)
-  - **Delete** (a hotel entry can be removed from the collection/list when the hotel name is provided)
-  - **Exit** (exit from the application)
+# Product Model
+-  Product Model structure:
+  * Product Product Id (must be unique) 
+  * Product Name 
+  * Price 
+  * Seller Name Seller Seller Name (must be unique)
 
+-  Product Service requests:
+  * GET all products
+  * GET by product-id
+    * We should get a 404 error when we try to access a non-existed product
+  * POST product 
+    * Add a single product
+    * Product ids should be non-null and unique
+    * Product names should be non-null
+    * Price should be over 0
+    * Seller name should refer to an actually existing seller
+  * PUT by product-id
+    * Update a single product
+    * Product names should be non-null
+    * Price should be over 0
+    * Seller name should refer to an actually existing seller
+  * DELETE by product-id
+    * Delete a single product
+    * DELETE should always return 200, regardless of if the item existed at the start or not. This is convention.
+
+# Seller Model
+- Seller Model structure:
+  * Seller Name
+
+- Seller Service requests:
+    * GET all sellers
+    * POST seller
+      * Selle name must be non-null & unique 
+    
 # JUnit
- - JUnit test can be executed by running the HotelServiceTest.java class
- - Several testing scenarios are set up to test the app functionality :
-   - Verify that hotel service is empty when first created
-   - The happy path (Test if the "happy path" is working and not throwing exceptions)
-   - Verify that an Exception is thrown when hotel name is empty
-   - Verify that an Exception is thrown when hotel features are empty
-   - Verify that an Exception is thrown when hotel price =< than 0
-   - Verify that an Exception is thrown if an invalid action command is provided
-   - Verify than an appropriate messaging is displayed when invalid hotel name is requested through the search function
+ - JUnit test can be executed by running the ProductServiceTest.java class
+ 
 
 # Logging
-- Results of the main actions are logged in the logfile.log with the append flag turned on.
+- Logging is not working with Javalin
 
