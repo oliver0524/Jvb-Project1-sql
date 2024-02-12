@@ -55,7 +55,6 @@ public class ProductServiceTest {
     @Test
     public void inputProductNameBlank() {
         ProductInfo p1 = new ProductInfo();
-        //p1.setId(id);
         p1.setName("");
         p1.setSellername("SellerName");
         p1.setPrice(1.0);
@@ -73,7 +72,6 @@ public class ProductServiceTest {
     @Test
     public void inputSellerNameBlank() {
         ProductInfo p1 = new ProductInfo();
-        //p1.setId(id);
         p1.setName("Product");
         p1.setSellername("");
         p1.setPrice(1.0);
@@ -95,14 +93,12 @@ public class ProductServiceTest {
         SellerService.addSeller(s1);
 
         ProductInfo p1 = new ProductInfo();
-        //p1.setId(id);
         p1.setName("Product1");
         p1.setSellername("SellerName");
         p1.setPrice(10.0);
         ProductService.addProduct(p1);
 
         ProductInfo p2 = new ProductInfo();
-        //p1.setId(id);
         p2.setName("Product1");
         p2.setSellername("SellerName");
         p2.setPrice(10.0);
@@ -160,7 +156,6 @@ public class ProductServiceTest {
         SellerService.addSeller(s1);
 
         ProductInfo p1 = new ProductInfo();
-        //p1.setId(id);
         p1.setName("Product");
         p1.setSellername("Seller2");
         p1.setPrice(10.0);

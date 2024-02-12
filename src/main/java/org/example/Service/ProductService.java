@@ -47,7 +47,7 @@ public class ProductService {
 
     /** Method to validate all input values based on requirements */
     public boolean inputValuesValidated(ProductInfo p) throws ProductInfoException {
-        if (p.getName().length() < 1 || p.getSellername().length() < 1){
+        if (p.getName().isBlank() || p.getSellername().isBlank()){
             Main.log.warn("ADD: Product or Seller name are missing: "
                         + p.getName() + "| " + p.getSellername());
                 throw new ProductInfoException("Product name or Seller name cannot be blank");

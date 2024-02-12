@@ -22,7 +22,7 @@ public class SellerService {
         public void addSeller (Seller s) throws SellerException {
             Main.log.info("ADD: Attempting to add a Seller:" + s);
 
-            if (s.getSellername().length() < 1) {
+            if (s.getSellername().isBlank()) {
                 Main.log.warn("ADD: Seller name is missing: " + s.getSellername());
                 throw new SellerException("Seller name cannot be blank");
             }
