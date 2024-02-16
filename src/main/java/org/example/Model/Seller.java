@@ -3,12 +3,10 @@ package org.example.Model;
 import java.util.Objects;
 
 public class Seller {
-    private long sellerid;
     private String sellername;
 
     /** Constructor for class Seller */
-    public Seller(int sellerid, String sellername) {
-        this.sellerid = sellerid;
+    public Seller(String sellername) {
         this.sellername = sellername;
     }
 
@@ -16,13 +14,6 @@ public class Seller {
     }
 
     /** Setters and getters for the Seller class variables. No usage annotations are ok */
-    public long getSellerid() {
-        return sellerid;
-    }
-
-    public void setSellerid(long sellerid) {
-        this.sellerid = sellerid;
-    }
 
     public String getSellername() {
         return sellername;
@@ -50,7 +41,6 @@ public class Seller {
 
 public String toString() {
     return "\n" +
-            "Seller id=" + sellerid +
             "Seller Name: " + sellername;
 }
 }

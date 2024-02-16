@@ -4,3 +4,321 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "--h2 is 
 --first, drop your tables (to reset your database for testing)
 --then create your tables
 afdbfdb [42001-214]
+2024-02-16 17:17:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar references SELLER(seller_name) [42102-214]
+2024-02-16 17:26:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar references SELLER(seller_name) [42102-214]
+2024-02-16 17:39:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar references SELLER(seller_name) [42102-214]
+2024-02-16 17:43:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar references SELLER(seller_name) [42102-214]
+2024-02-16 17:47:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 17:52:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 17:55:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 17:59:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:04:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:05:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:06:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:07:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:08:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:12:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:17:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:18:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:19:50 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:26:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:29:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:34:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:34:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:34:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:34:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS [42102-214]
+2024-02-16 18:36:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:36:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:36:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:36:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS [42102-214]
+2024-02-16 18:37:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLER" not found; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int primary key,
+    product_name varchar(255) not null,
+    price double,
+    sold_by varchar(255) references SELLER(seller_name) [42102-214]
+2024-02-16 18:37:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:38:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [42102-214]
+2024-02-16 18:38:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS [42102-214]
+2024-02-16 18:40:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Numeric value out of range: "3603537837221363712" in column "PRODUCT_ID"; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [22004-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:506)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.value.Value.convertToInt(Value.java:2691)
+	at org.h2.value.Value.convertToInt(Value.java:1590)
+	at org.h2.value.Value.convertTo(Value.java:1135)
+	at org.h2.value.Value.convertForAssignTo(Value.java:1092)
+	at org.h2.table.Column.validateConvertUpdateSequence(Column.java:369)
+	at org.h2.table.Table.convertInsertRow(Table.java:926)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:167)
+	at org.h2.command.dml.Insert.update(Insert.java:135)
+	at org.h2.command.dml.DataChangeStatement.update(DataChangeStatement.java:74)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at org.example.DAO.ProductDAO.insertProduct(ProductDAO.java:32)
+	at org.example.Service.ProductService.addProduct(ProductService.java:54)
+	at org.example.Controller.ProductController.lambda$getAPI$4(ProductController.java:67)
+	at io.javalin.routing.HandlerEntry.handle(HandlerEntry.kt:19)
+	at io.javalin.http.servlet.DefaultTasks.HTTP$lambda-8$lambda-6$lambda-5(DefaultTasks.kt:35)
+	at io.javalin.http.servlet.JavalinServlet.handleTask(JavalinServlet.kt:79)
+	at io.javalin.http.servlet.JavalinServlet.handleSync(JavalinServlet.kt:46)
+	at io.javalin.http.servlet.JavalinServlet.service(JavalinServlet.kt:34)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:587)
+	at io.javalin.jetty.JavalinJettyServlet.service(JavalinJettyServlet.kt:58)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:587)
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:764)
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:529)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:221)
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1571)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:221)
+	at io.javalin.jetty.JettyServer$start$wsAndHttpHandler$1.doHandle(JettyServer.kt:57)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:176)
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:484)
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1544)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:174)
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1302)
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:129)
+	at org.eclipse.jetty.server.handler.StatisticsHandler.handle(StatisticsHandler.java:173)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:122)
+	at org.eclipse.jetty.server.Server.handle(Server.java:563)
+	at org.eclipse.jetty.server.HttpChannel.lambda$handle$0(HttpChannel.java:505)
+	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:762)
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:497)
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:282)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:933)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1077)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2024-02-16 18:40:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Numeric value out of range: "7575914542837233664" in column "PRODUCT_ID"; SQL statement:
+insert into PRODUCTS (product_id, product_name, price, sold_by) values (?, ?, ?, ?) [22004-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:506)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.value.Value.convertToInt(Value.java:2691)
+	at org.h2.value.Value.convertToInt(Value.java:1590)
+	at org.h2.value.Value.convertTo(Value.java:1135)
+	at org.h2.value.Value.convertForAssignTo(Value.java:1092)
+	at org.h2.table.Column.validateConvertUpdateSequence(Column.java:369)
+	at org.h2.table.Table.convertInsertRow(Table.java:926)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:167)
+	at org.h2.command.dml.Insert.update(Insert.java:135)
+	at org.h2.command.dml.DataChangeStatement.update(DataChangeStatement.java:74)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:169)
+	at org.h2.command.Command.executeUpdate(Command.java:252)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:169)
+	at org.example.DAO.ProductDAO.insertProduct(ProductDAO.java:32)
+	at org.example.Service.ProductService.addProduct(ProductService.java:54)
+	at org.example.Controller.ProductController.lambda$getAPI$4(ProductController.java:67)
+	at io.javalin.routing.HandlerEntry.handle(HandlerEntry.kt:19)
+	at io.javalin.http.servlet.DefaultTasks.HTTP$lambda-8$lambda-6$lambda-5(DefaultTasks.kt:35)
+	at io.javalin.http.servlet.JavalinServlet.handleTask(JavalinServlet.kt:79)
+	at io.javalin.http.servlet.JavalinServlet.handleSync(JavalinServlet.kt:46)
+	at io.javalin.http.servlet.JavalinServlet.service(JavalinServlet.kt:34)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:587)
+	at io.javalin.jetty.JavalinJettyServlet.service(JavalinJettyServlet.kt:58)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:587)
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:764)
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:529)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:221)
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1571)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:221)
+	at io.javalin.jetty.JettyServer$start$wsAndHttpHandler$1.doHandle(JettyServer.kt:57)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:176)
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:484)
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1544)
+	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:174)
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1302)
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:129)
+	at org.eclipse.jetty.server.handler.StatisticsHandler.handle(StatisticsHandler.java:173)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:122)
+	at org.eclipse.jetty.server.Server.handle(Server.java:563)
+	at org.eclipse.jetty.server.HttpChannel.lambda$handle$0(HttpChannel.java:505)
+	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:762)
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:497)
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:282)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.runTask(AdaptiveExecutionStrategy.java:421)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.consumeTask(AdaptiveExecutionStrategy.java:390)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.tryProduce(AdaptiveExecutionStrategy.java:277)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.lambda$new$0(AdaptiveExecutionStrategy.java:139)
+	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:411)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:933)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1077)
+	at java.base/java.lang.Thread.run(Thread.java:829)

@@ -5,18 +5,17 @@
 DROP TABLE PRODUCTS IF EXISTS;
 DROP TABLE SELLERS IF EXISTS;
 CREATE TABLE SELLERS (
-    seller_id int primary key,
-    seller_name varchar(255) not null
+    seller_name varchar(255) primary key
 );
 CREATE TABLE PRODUCTS (
-    product_id int primary key,
+    product_id serial primary key,
     product_name varchar(255) not null,
     price double,
-    sold_by int references SELLER(seller_id)
+    sold_by varchar(255) references SELLERS(seller_name)
 );
-INSERT INTO SELLER (seller_id, seller_name)
+INSERT INTO SELLERS (seller_name)
 VALUES
-(1, 'Apple'),
-(2, 'Android');
+('Apple'),
+('Android');
 INSERT INTO PRODUCTS (product_id, product_name, price, sold_by)
-VALUES (1, 'iphone', 1000, 1);
+VALUES (1, 'iphone', 1000, 'Apple');

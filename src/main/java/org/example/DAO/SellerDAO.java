@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class SellerDAO {
@@ -14,16 +15,15 @@ public class SellerDAO {
     public SellerDAO(Connection conn){
         this.conn = conn;
     }
-    public Set<Seller> getAllSeller(){
-        Set<Seller> SellerResults = new HashSet<>();
+
+    public Set<String> getAllSellers(){
+        Set<String> SellerResults = new LinkedHashSet<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("select * from Seller");
+            PreparedStatement ps = conn.prepareStatement("select * from Sellers");
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()){
-                int SellerId = resultSet.getInt("Seller_id");
-                String SellerName = resultSet.getString("name");
-                Seller s = new Seller(SellerId, SellerName);
-                SellerResults.add(s);
+                String sellerName = resultSet.getString("seller_name");
+                SellerResults.add(sellerName);
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -33,27 +33,25 @@ public class SellerDAO {
 
     public void insertSeller(Seller s){
         try{
+            System.out.println("Connection status Seller: " + conn);
             PreparedStatement ps = conn.prepareStatement("insert into " +
-                    "Seller (Seller_id, name) values (?, ?)");
-            ps.setInt(1, s.getSellerid());
-            ps.setString(2, s.getSellername());
+                    "Sellers (seller_name) values (?)");
+            ps.setString(1, s.getSellername());
             ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
         }
     }
 
-    public Seller getSellerById(int id){
+    public String getSellerByName(String s){
         try{
             PreparedStatement ps = conn.prepareStatement(
-                    "select * from Seller where Seller_id = ?");
-            ps.setInt(1, id);
+                    "select * from Sellers where seller_name = ?");
+            ps.setString(1, s);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                int SellerId = rs.getInt("Seller_id");
-                String name = rs.getString("name");
-                Seller s = new Seller(SellerId, name);
-                return s;
+                String sellerName = rs.getString("seller_name");
+                return sellerName;
             }else{
                 return null;
             }

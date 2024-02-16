@@ -17,30 +17,41 @@ public class ProductService {
     /** Dependency Injection */
     SellerService sellerService;
    List<ProductInfo> ProductinfoList;
+   ProductDAO productDAO;
 
-    public ProductService(SellerService sellerService){
+    public ProductService(ProductDAO productDAO){
+        this.productDAO = productDAO;
         this.sellerService = sellerService;
         this.ProductinfoList = new ArrayList<>();
-    }
-
-    public ProductService(ProductDAO productDAO) {
-
     }
 
     public List<ProductInfo> getProductinfo() {
         return ProductinfoList;
     }
 
+//    public void saveProduct(ProductInfo p) throws ProductInfoException {
+//        int id = p.getId();
+////        If no product with that id was found - insert the product
+//        if(productDAO.getProductById() == null){
+//            productDAO.insertProduct(p);
+//        }else{
+//            throw new ProductInfoException("Product with id "+id+" already exists");
+//        }
+////        Otherwise, throw an exception to inform the controller that there was an
+////        issue inserting the product
+//    }
+
+
     /** This method: handles the Product addition (POST) and throws the ProductInfoException at the end if
      * either if Product or Seller name is blank or Product name already exists  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
         if (inputValuesValidated(p)) {
-            long id = (long) (Math.random() * Long.MAX_VALUE);
-            p.setId(id);
-            Application.log.info("ADD: Attempting to add a Product: " + id + "| "
+            //long id = (long) (Math.random() * Long.MAX_VALUE);
+            //p.setId(id);
+            Application.log.info("ADD: Attempting to add a Product: " +  "| "
                     + p.getName() + "| " + p.getPrice() + "| " + p.getSellername());
-            ProductinfoList.add(p);
+            productDAO.insertProduct(p);
             return p;
         }
         return null;
@@ -55,13 +66,13 @@ public class ProductService {
             } else if (p.getPrice() <= 0) {
                 Application.log.warn("ADD: Price is <= 0: " + p.getPrice());
                 throw new ProductInfoException("Product price should be greater than 0");
-            } else if (ProductinfoList.contains(p)){
-                Application.log.warn("ADD: Product name is duplicate"
-                        + p.getName());
-                throw new ProductInfoException("Product name already exists");
-            } else if (checkIfSellerDoesNotExist(p)) {
-            Application.log.warn("ADD: Should be an existing Seller: " + p.getSellername());
-            throw new ProductInfoException("Seller does not exist in the Seller set");
+//            } else if (ProductinfoList.contains(p)){
+//                Application.log.warn("ADD: Product name is duplicate"
+//                        + p.getName());
+//                throw new ProductInfoException("Product name already exists");
+//            } else if (checkIfSellerDoesNotExist(p)) {
+//            Application.log.warn("ADD: Should be an existing Seller: " + p.getSellername());
+//            throw new ProductInfoException("Seller does not exist in the Seller set");
         } else {
             return true;
         }
@@ -81,23 +92,21 @@ public class ProductService {
 
 
     /** This method handles the 'GET' by product-id. The product-id is obtained from a corresponding
-     * post request (it's a randomly generated number) */
+     * post request (it's a previously randomly generated number) */
     public ProductInfo getProductById(Long id) throws ProductInfoException {
-        for(int i = 0; i < ProductinfoList.size(); i++){
-            ProductInfo currentProduct = ProductinfoList.get(i);
-            if(currentProduct.getId() == id){
-                return currentProduct;
-            }
+        ProductInfo p = productDAO.getProductById(id);
+        if (p == null) {
+            throw new ProductInfoException("Product ID is not found");
+        } else {
+            return p;
         }
-        throw new ProductInfoException ("Product ID is not found");
-        //return null;
     }
 
     /** This method handles the 'GET' action and displays all ProductInfo objects from
      * the Productinfo list */
     public List<ProductInfo> getAllProducts(){
         Application.log.info("VIEW: List of all Products in the collection: "+ProductinfoList);
-        return ProductinfoList;
+        return productDAO.getAllProducts();
     }
 
 

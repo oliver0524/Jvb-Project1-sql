@@ -1,3 +1,4 @@
+import org.example.DAO.ProductDAO;
 import org.example.Exception.ProductInfoException;
 import org.example.Exception.SellerException;
 import org.example.Model.ProductInfo;
@@ -21,7 +22,7 @@ public class ProductServiceTest {
     public void setUp() {
         SellerService = new SellerService();
         ProductService = new ProductService(SellerService);
-
+        //ProductDAO = new ProductDAO();
     }
 
     /** Verify that when the Product service is first created, it is empty.*/

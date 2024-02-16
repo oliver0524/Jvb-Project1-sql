@@ -12,22 +12,23 @@ import java.util.List;
 public class ProductDAO {
     Connection conn;
 
-    public ProductDAO(Connection conn) {
-    }
-
-    public void productDAO(Connection conn){
-
+    public ProductDAO(Connection conn){
         this.conn = conn;
     }
+
+    //public ProductDAO() {
+    //}
+
     public void insertProduct(ProductInfo p){
         try{
-            PreparedStatement ps = conn.prepareStatement("insert into Product" +
-                    " (Product_id, title, year_made, painted_by) " +
+            System.out.println("Connection status Product: " + conn);
+            PreparedStatement ps = conn.prepareStatement("insert into PRODUCTS" +
+                    " (product_id, product_name, price, sold_by) " +
                     "values (?, ?, ?, ?)");
-            ps.setInt(1, p.getId());
+            ps.setLong(1, p.getId());
             ps.setString(2, p.getName());
-            ps.setInt(3, p.getPrice());
-            ps.setInt(4, p.getSellername());
+            ps.setDouble(3, p.getPrice());
+            ps.setString(4, p.getSellername());
             ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
@@ -36,14 +37,14 @@ public class ProductDAO {
     public List<ProductInfo> getAllProducts(){
         List<ProductInfo> resultProducts = new ArrayList<>();
         try{
-            PreparedStatement ps = conn.prepareStatement("select * from Product");
+            PreparedStatement ps = conn.prepareStatement("select * from Products");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                int ProductId = rs.getInt("Product_id");
-                String title = rs.getString("title");
-                int yearMade = rs.getInt("year_made");
-                int paintedBy = rs.getInt("painted_by");
-                ProductInfo p = new ProductInfo(ProductId, title, yearMade, paintedBy);
+                int id= rs.getInt("product_id");
+                String name = rs.getString("product_name");
+                double price= rs.getDouble("price");
+                String sellername = rs.getString("sold_by");
+                ProductInfo p = new ProductInfo(id, name, price, sellername);
                 resultProducts.add(p);
             }
         }catch (SQLException e){
@@ -51,17 +52,17 @@ public class ProductDAO {
         }
         return resultProducts;
     }
-    public ProductInfo getProductById(int id){
+    public ProductInfo getProductById(long id){
         try{
-            PreparedStatement ps = conn.prepareStatement("select * from Product where Product_id = ?");
-            ps.setInt(1, id);
+            PreparedStatement ps = conn.prepareStatement("select * from PRODUCTS where product_id = ?");
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                int ProductId = rs.getInt("Product_id");
-                String title = rs.getString("title");
-                int yearMade = rs.getInt("year_made");
-                int paintedBy = rs.getInt("painted_by");
-                ProductInfo p = new ProductInfo(ProductId, title, yearMade, paintedBy);
+                int prodId= rs.getInt("product_id");
+                String name = rs.getString("product_name");
+                double price= rs.getInt("price");
+                String sellername = rs.getString("sold_by");
+                ProductInfo p = new ProductInfo(id, name, price, sellername);
                 return p;
             }
         }catch(SQLException e){
