@@ -37,7 +37,7 @@ public class ProductServiceTest {
     @Test
     public void inputProductInvalidPrice() {
         ProductInfo p1 = new ProductInfo();
-        p1.setId(id);
+        p1.setId((int) id);
         p1.setName("Product");
         p1.setSellername("SellerName");
         p1.setPrice(0.0);

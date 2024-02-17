@@ -47,19 +47,19 @@ public class SellerService {
      * This method handles the 'view' action and displays all Seller objects from the Seller Set
      */
     public Set<String> getAllSellers() {
-        Application.log.info("VIEW: List of all Sellers in the collection: " + sellerSet);
         Set<String> sellerNames = sellerDAO.getAllSellers();
+        Application.log.info("VIEW: List of all Sellers in the collection: " + sellerNames);
         return sellerNames;
     }
 
-//    public Seller getSellerByName(String name) throws SellerException {
-//        String s = sellerDAO.getSellerByName(name);
-//        if (s == null) {
-//            throw new SellerException("No Seller " + s + " found");
-//        } else {
-//            return s;
-//        }
-//    }
+    public String getSellerByName(String name) throws SellerException {
+        String s = sellerDAO.getSellerByName(name);
+        if (s == null) {
+            throw new SellerException("No Seller " + s + " found");
+        } else {
+            return s;
+        }
+    }
 
 }
 

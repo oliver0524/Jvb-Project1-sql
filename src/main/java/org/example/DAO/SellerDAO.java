@@ -33,7 +33,7 @@ public class SellerDAO {
 
     public void insertSeller(Seller s){
         try{
-            System.out.println("Connection status Seller: " + conn);
+            //System.out.println("Connection status Seller: " + conn);
             PreparedStatement ps = conn.prepareStatement("insert into " +
                     "Sellers (seller_name) values (?)");
             ps.setString(1, s.getSellername());

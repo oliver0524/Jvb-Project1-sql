@@ -2,9 +2,11 @@ package org.example.Service;
 
 import org.example.Application;
 import org.example.DAO.ProductDAO;
+import org.example.DAO.SellerDAO;
 import org.example.Exception.ProductInfoException;
 import org.example.Model.ProductInfo;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,9 +20,11 @@ public class ProductService {
     SellerService sellerService;
    List<ProductInfo> ProductinfoList;
    ProductDAO productDAO;
+   SellerDAO sellertDAO;
 
-    public ProductService(ProductDAO productDAO){
+    public ProductService(ProductDAO productDAO, SellerDAO sellerDAO){
         this.productDAO = productDAO;
+        this.sellertDAO = sellerDAO;
         this.sellerService = sellerService;
         this.ProductinfoList = new ArrayList<>();
     }
@@ -29,32 +33,21 @@ public class ProductService {
         return ProductinfoList;
     }
 
-//    public void saveProduct(ProductInfo p) throws ProductInfoException {
-//        int id = p.getId();
-////        If no product with that id was found - insert the product
-//        if(productDAO.getProductById() == null){
-//            productDAO.insertProduct(p);
-//        }else{
-//            throw new ProductInfoException("Product with id "+id+" already exists");
-//        }
-////        Otherwise, throw an exception to inform the controller that there was an
-////        issue inserting the product
-//    }
-
 
     /** This method: handles the Product addition (POST) and throws the ProductInfoException at the end if
      * either if Product or Seller name is blank or Product name already exists  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
         if (inputValuesValidated(p)) {
-            //long id = (long) (Math.random() * Long.MAX_VALUE);
-            //p.setId(id);
-            Application.log.info("ADD: Attempting to add a Product: " +  "| "
-                    + p.getName() + "| " + p.getPrice() + "| " + p.getSellername());
+            int id = p.getId();
             productDAO.insertProduct(p);
+                // get the newly created id
+            p.getId();
+            Application.log.info("ADD: New Product: " + p);
             return p;
         }
-        return null;
+        throw new ProductInfoException("Product is not inserted");
+        //return null;
     }
 
     /** Method to validate all input values based on requirements */
@@ -66,34 +59,33 @@ public class ProductService {
             } else if (p.getPrice() <= 0) {
                 Application.log.warn("ADD: Price is <= 0: " + p.getPrice());
                 throw new ProductInfoException("Product price should be greater than 0");
-//            } else if (ProductinfoList.contains(p)){
-//                Application.log.warn("ADD: Product name is duplicate"
-//                        + p.getName());
-//                throw new ProductInfoException("Product name already exists");
-//            } else if (checkIfSellerDoesNotExist(p)) {
-//            Application.log.warn("ADD: Should be an existing Seller: " + p.getSellername());
-//            throw new ProductInfoException("Seller does not exist in the Seller set");
+            } else if (productDAO.getProductByName(p.getName()) != null){
+                Application.log.warn("ADD: Product name is duplicate: " + p.getName());
+                throw new ProductInfoException("Product name already exists");
+           } else if (sellertDAO.getSellerByName(p.getSellername()) == null){
+                Application.log.warn("ADD: Non-existent seller name: " + p.getSellername());
+           throw new ProductInfoException("Seller does not exist in the Seller set");
         } else {
             return true;
         }
     }
 
-    /** Method to check if seller exists in the Seller set */
-    public boolean checkIfSellerDoesNotExist(ProductInfo p){
-        // Get seller names from sellerService
-        Set<String> sellerNames = sellerService.getAllSellers();
+//    /** Method to check if seller exists in the Seller set */
+//    public boolean checkIfSellerDoesNotExist(ProductInfo p){
+//        // Get seller names from sellerService
+//        Set<String> sellerNames = sellerService.getAllSellers();
+//
+//        // Check if the seller name of productInfo matches any seller name
+//        if (sellerNames.contains(p.getSellername())) {
+//            return false;
+//        }
+//        return true;
+//    }
 
-        // Check if the seller name of productInfo matches any seller name
-        if (sellerNames.contains(p.getSellername())) {
-            return false;
-        }
-        return true;
-    }
 
-
-    /** This method handles the 'GET' by product-id. The product-id is obtained from a corresponding
+    /** This method handles the 'GET' by product_id. The product-id is obtained from a corresponding
      * post request (it's a previously randomly generated number) */
-    public ProductInfo getProductById(Long id) throws ProductInfoException {
+    public ProductInfo getProductById(Integer id) throws ProductInfoException {
         ProductInfo p = productDAO.getProductById(id);
         if (p == null) {
             throw new ProductInfoException("Product ID is not found");
@@ -102,50 +94,56 @@ public class ProductService {
         }
     }
 
+    /** This method handles the 'GET' by product_name.  */
+    public ProductInfo getProductByName(String name) throws ProductInfoException {
+        ProductInfo p = productDAO.getProductByName(name);
+        if (p == null) {
+            throw new ProductInfoException("Product is not found");
+        } else {
+            return p;
+        }
+    }
+
+    /** This method handles the 'GET' products by seller  */
+    public List<ProductInfo> getProductBySeller(String sname) throws ProductInfoException {
+        List<ProductInfo> productList = productDAO.getProductBySeller(sname);
+        if (productList == null) {
+            throw new ProductInfoException("No products found for this seller: " + sname);
+        } else {
+            Application.log.info("VIEW: List of all Products seller: "+ sname);
+            return productList;
+        }
+    }
+
     /** This method handles the 'GET' action and displays all ProductInfo objects from
      * the Productinfo list */
     public List<ProductInfo> getAllProducts(){
-        Application.log.info("VIEW: List of all Products in the collection: "+ProductinfoList);
-        return productDAO.getAllProducts();
+        List<ProductInfo> productList = productDAO.getAllProducts();
+        Application.log.info("VIEW: List of all Products in the collection: "+ productList);
+        return productList;
     }
 
 
     /** This method handles the 'DELETE' action by product-id. The product-id is obtained from a corresponding
      * post request (it's a randomly generated number) */
-    public void deleteProductById(Long id){
-        for(int i = 0; i < ProductinfoList.size(); i++){
-            ProductInfo currentProduct = ProductinfoList.get(i);
-            if(currentProduct.getId() == id){
-                Application.log.info("DELETE: Successful delete for Product: " + currentProduct);
-                ProductinfoList.remove(i);
-                //return currentProduct;
+    public void deleteProductById(Integer id){
+        ProductInfo p = productDAO.getProductById(id);
+        if (p != null){
+            if (productDAO.deleteProductById(id)) {
+                Application.log.info("DELETE: Successful delete for Product: " + p);
             }
         }
-        //return null;
     }
 
     /** This method handles the 'PUT' action by product-id. The product-id is obtained from a corresponding
      * post request (it's a randomly generated number) */
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
-
-        if (ProductinfoList == null) {
-            throw new ProductInfoException("Product List is empty");
+        if ((productDAO.getProductById(p.getId()) != null) && inputValuesValidated(p)) {
+            productDAO.updateProductById(p);
+            Application.log.info("UPDATE: product is modified: " + p);
+            return p;
         }
-
-        for(int i = 0; i < ProductinfoList.size(); i++){
-            ProductInfo currentProduct = ProductinfoList.get(i);
-            if(currentProduct.getId() == p.getId() && inputValuesValidated(p)){
-                currentProduct.setId(p.getId());
-                currentProduct.setName(p.getName());
-                currentProduct.setPrice(p.getPrice());
-                currentProduct.setSellername(p.getSellername());
-                Application.log.info("UPDATE: product information updated for: " + currentProduct);
-                return currentProduct;
-            }
-        }
-        Application.log.info("UPDATE: product with the provided id is not found: " + p.getId());
-        throw new ProductInfoException("Product id is not found: " + p.getId());
-        //return null;
+        return null;
     }
 
 

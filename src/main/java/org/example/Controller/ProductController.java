@@ -11,6 +11,7 @@ import org.example.Service.ProductService;
 import org.example.Service.SellerService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static org.example.Service.ProductService.*;
@@ -60,6 +61,19 @@ public class ProductController {
             }
         });
 
+        /** If seller name is found, respond with status 200; otherwise respond with status 404 */
+        api.get("seller/{name}", context -> {
+            try{
+                String nm = String.valueOf((context.pathParam("name")));
+                String seller = sellerService.getSellerByName(nm);
+                context.json(seller);
+                context.status(200);
+            }catch(SellerException e){
+                context.result(e.getMessage());
+                context.status(400);
+            }
+        });
+
         api.post("/product", context -> {
             try{
                 ObjectMapper om = new ObjectMapper();
@@ -81,9 +95,35 @@ public class ProductController {
          *  If product id is not found, respond with status 404 */
         api.get("product/{id}", context -> {
             try{
-                long id = Long.parseLong(context.pathParam("id"));
+                Integer id = Integer.valueOf((context.pathParam("id")));
                 ProductInfo p = productService.getProductById(id);
                 context.json(p);
+                context.status(200);
+            }catch(ProductInfoException e){
+                context.result(e.getMessage());
+                context.status(400);
+            }
+        });
+
+        /** If product name is found, respond with status 200; otherwise respond with status 404 */
+        api.get("productname/{name}", context -> {
+            try{
+                String nm = (context.pathParam("name"));
+                ProductInfo p = productService.getProductByName(nm);
+                context.json(p);
+                context.status(200);
+            }catch(ProductInfoException e){
+                context.result(e.getMessage());
+                context.status(400);
+            }
+        });
+
+        /** List prodducts by seller; If found, respond with status 200; otherwise respond with status 404 */
+        api.get("productbyseller/{sname}", context -> {
+            try{
+                String sellerName = (context.pathParam("sname"));
+                List<ProductInfo> productList = productService.getProductBySeller(sellerName);
+                context.json(productList);
                 context.status(200);
             }catch(ProductInfoException e){
                 context.result(e.getMessage());
@@ -94,7 +134,7 @@ public class ProductController {
         /** If product id is found, delete and respond with status 200
          *  If product id is not found, respond with status 200 anyway (this is a convention) */
         api.delete("product/{id}", context -> {
-            long id = Long.parseLong(context.pathParam("id"));
+            Integer id = Integer.valueOf((context.pathParam("id")));
             productService.deleteProductById(id);
             context.status(200);
         });
@@ -102,7 +142,7 @@ public class ProductController {
         /** If product id is found, update and respond with status 200 */
         api.put("product/{id}", context -> {
             try{
-                long id = Long.parseLong(context.pathParam("id"));
+                Integer id = Integer.valueOf((context.pathParam("id")));
                 ObjectMapper om = new ObjectMapper();
                 ProductInfo p = om.readValue(context.body(), ProductInfo.class);
                 p.setId(id);

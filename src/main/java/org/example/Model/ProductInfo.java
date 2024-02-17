@@ -10,7 +10,7 @@ public class ProductInfo {
     private String sellername;
 
     // Constructor for the ProductInfo class
-    public ProductInfo(long id, String name, double price, String sellername) {
+    public ProductInfo(int id, String name, double price, String sellername) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -21,11 +21,11 @@ public class ProductInfo {
     }
 
     /** Setters and getters for the ProductInfo class variables. No usage annotations are ok */
-    public long getId() {
-        return id;
+    public int getId() {
+        return (int) id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

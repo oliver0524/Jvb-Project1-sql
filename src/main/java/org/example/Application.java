@@ -22,7 +22,7 @@ public class Application {
         SellerDAO sellerDAO = new SellerDAO(conn);
         ProductDAO productDAO = new ProductDAO(conn);
         SellerService sellerService = new SellerService(sellerDAO);
-        ProductService productService = new ProductService(productDAO);
+        ProductService productService = new ProductService(productDAO, sellerDAO);
         ProductController productController = new ProductController(sellerService, productService);
 
         Javalin api = productController.getAPI();
