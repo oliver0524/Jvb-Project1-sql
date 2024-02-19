@@ -5,6 +5,8 @@ import org.example.DAO.SellerDAO;
 import org.example.Exception.SellerException;
 import org.example.Model.Seller;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -28,20 +30,19 @@ public class SellerService {
      * at least one variable did not pass the validation test
      */
     public void addSeller(Seller s) throws SellerException {
-        Application.log.info("ADD: Attempting to add a Seller:" + s);
+        try {
+            Application.log.info("ADD: Attempting to add a Seller:" + s);
 
-        if (s.getSellername().isBlank()) {
-            Application.log.warn("ADD: Seller name is missing: " + s.getSellername());
-            throw new SellerException("Seller name cannot be blank");
-//        }
-
-//        if (sellerSet.contains(s)) {
-//            Application.log.warn("ADD: Seller name already exists: " + s.getSellername());
-//            throw new SellerException("Seller name already exists");
-        } else {
-            sellerDAO.insertSeller(s);
+            if (s.getSellername().isBlank()) {
+                Application.log.warn("ADD: Seller name is missing: " + s.getSellername());
+                throw new SellerException("Seller name cannot be blank");
+            } else {
+                sellerDAO.insertSeller(s);
+            }
+        } catch (SellerException e) {
+             throw new SellerException("Error adding seller: " + e.getMessage());
+            }
         }
-    }
 
     /**
      * This method handles the 'view' action and displays all Seller objects from the Seller Set

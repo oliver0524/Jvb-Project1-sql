@@ -909,3 +909,19 @@ update PRODUCTS set price = ?, sold_by = ? where product_id = ? [90012-214]
 	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:933)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1077)
 	at java.base/java.lang.Thread.run(Thread.java:829)
+2024-02-19 16:23:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000a\000d\000aCREATE TABLE SELLERS (\000d\000a    seller_name varchar(255) unique [*]key\000d\000a)"; expected "CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+
+CREATE TABLE SELLERS (
+    seller_name varchar(255) unique key
+) [42001-214]
+2024-02-19 16:24:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SELLERS" not found (this database is empty); SQL statement:
+insert into Sellers (seller_name) values (?) [42104-214]
+2024-02-19 16:24:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE SELLERS (\000d\000a    seller_name varchar(255) unique [*]key\000d\000a)"; expected "CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE SELLERS (
+    seller_name varchar(255) unique key
+) [42001-214]

@@ -13,8 +13,6 @@ public class ProductDAO {
         this.conn = conn;
     }
 
-    //public ProductDAO() {
-    //}
 
     public ProductInfo insertProduct(ProductInfo p){
         //List<ProductInfo> newProduct = new ArrayList<>();
@@ -119,7 +117,8 @@ public class ProductDAO {
 
     public ProductInfo updateProductById(ProductInfo p){
         try{
-            PreparedStatement ps = conn.prepareStatement("update PRODUCTS set price = ?, sold_by = ? where product_id = ?");
+            PreparedStatement ps = conn.prepareStatement("update PRODUCTS set price = ?, sold_by = ? " +
+                    "where product_id = ?");
             ps.setDouble(1, p.getPrice());
             ps.setString(2, p.getSellername());
             ps.setInt(3, p.getId());

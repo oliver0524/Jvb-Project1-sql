@@ -39,7 +39,7 @@ public class ProductService {
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
         if (inputValuesValidated(p)) {
-            int id = p.getId();
+            //int id = p.getId();
             productDAO.insertProduct(p);
                 // get the newly created id
             p.getId();
@@ -69,19 +69,6 @@ public class ProductService {
             return true;
         }
     }
-
-//    /** Method to check if seller exists in the Seller set */
-//    public boolean checkIfSellerDoesNotExist(ProductInfo p){
-//        // Get seller names from sellerService
-//        Set<String> sellerNames = sellerService.getAllSellers();
-//
-//        // Check if the seller name of productInfo matches any seller name
-//        if (sellerNames.contains(p.getSellername())) {
-//            return false;
-//        }
-//        return true;
-//    }
-
 
     /** This method handles the 'GET' by product_id. The product-id is obtained from a corresponding
      * post request (it's a previously randomly generated number) */

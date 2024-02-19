@@ -1,28 +1,48 @@
+import org.example.Application;
 import org.example.DAO.ProductDAO;
+import org.example.DAO.SellerDAO;
 import org.example.Exception.ProductInfoException;
 import org.example.Exception.SellerException;
 import org.example.Model.ProductInfo;
 import org.example.Model.Seller;
 import org.example.Service.ProductService;
 import org.example.Service.SellerService;
+import org.example.Util.ConnectionSingleton;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Mockito.*;
+
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 public class ProductServiceTest {
 
     ProductService ProductService;
     SellerService SellerService;
-    long id = (long) (Math.random() * Long.MAX_VALUE);
+    //long id = (long) (Math.random() * Long.MAX_VALUE);
+
+    @Mock
+    private ProductDAO productDAO;
+    @Mock
+    private SellerDAO sellerDAO;
 
     /** Instantiate an object before each test */
     @Before
     public void setUp() {
-        SellerService = new SellerService();
-        ProductService = new ProductService(SellerService);
-        //ProductDAO = new ProductDAO();
+        MockitoAnnotations.initMocks(this);
+        Connection conn = ConnectionSingleton.getConnection();
+        sellerDAO = new SellerDAO(conn);
+        productDAO = new ProductDAO(conn);
+        SellerService = new SellerService(sellerDAO);
+        ProductService = new ProductService(productDAO, sellerDAO);
     }
 
     /** Verify that when the Product service is first created, it is empty.*/
@@ -37,7 +57,7 @@ public class ProductServiceTest {
     @Test
     public void inputProductInvalidPrice() {
         ProductInfo p1 = new ProductInfo();
-        p1.setId((int) id);
+        //p1.setId(id);
         p1.setName("Product");
         p1.setSellername("SellerName");
         p1.setPrice(0.0);
@@ -47,7 +67,7 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when price is 0 or less");
         } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
@@ -64,7 +84,7 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when Product name is blank");
         } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
@@ -81,7 +101,7 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when Product name is blank");
         } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
@@ -108,7 +128,7 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when Product name is not unique");
         } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
@@ -124,7 +144,7 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when Seller name is blank");
         } catch (SellerException e) {
             // Log the exception details
-            Main.log.info("Caught SellerException: " + e.getMessage());
+            Application.log.info("Caught SellerException: " + e.getMessage());
         }
     }
 
@@ -143,11 +163,11 @@ public class ProductServiceTest {
             Assert.fail("The Exception is not thrown when Seller name is not unique");
         } catch (SellerException e) {
             // Log the exception details
-            Main.log.info("Caught SellerException: " + e.getMessage());
+            Application.log.info("Caught SellerException: " + e.getMessage());
         }
     }
 
-     /** Test if appropriate messaging is displayed when a non-existent Seller is provided in the Product service*/
+    /** Test if appropriate messaging is displayed when a non-existent Seller is provided in the Product service*/
     @Test
     public void testNonExistentSeller() throws SellerException {
         // Arrange
@@ -164,7 +184,7 @@ public class ProductServiceTest {
             ProductService.addProduct(p1);
         }catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
@@ -174,12 +194,12 @@ public class ProductServiceTest {
         // Arrange
 
         try {
-        // if no errors are produced when a GET by a non-existent product id is performed, the Assert.fail method is called
-        ProductService.getProductById(id);
-        Assert.fail("The Exception is not thrown when a Search by a non-existent product id is performed");
+            // if no errors are produced when a GET by a non-existent product id is performed, the Assert.fail method is called
+            ProductService.getProductById(99);
+            Assert.fail("The Exception is not thrown when a Search by a non-existent product id is performed");
         } catch (ProductInfoException e) {
             // Log the exception details
-            Main.log.info("Caught ProductInfoException for a non-existent product-id: " + e.getMessage());
+            Application.log.info("Caught ProductInfoException for a non-existent product-id: " + e.getMessage());
         }
     }
-    }
+}

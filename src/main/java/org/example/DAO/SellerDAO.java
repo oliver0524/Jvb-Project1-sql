@@ -1,11 +1,9 @@
 package org.example.DAO;
 
+import org.example.Exception.SellerException;
 import org.example.Model.Seller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -18,20 +16,20 @@ public class SellerDAO {
 
     public Set<String> getAllSellers(){
         Set<String> SellerResults = new LinkedHashSet<>();
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement("select * from Sellers");
             ResultSet resultSet = ps.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 String sellerName = resultSet.getString("seller_name");
                 SellerResults.add(sellerName);
             }
-        }catch(SQLException e){
-            e.printStackTrace();
+                }catch(SQLException e){
+                e.printStackTrace();
         }
         return SellerResults;
     }
 
-    public void insertSeller(Seller s){
+    public void insertSeller(Seller s) throws SellerException {
         try{
             //System.out.println("Connection status Seller: " + conn);
             PreparedStatement ps = conn.prepareStatement("insert into " +
@@ -40,6 +38,7 @@ public class SellerDAO {
             ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();
+            throw new SellerException("Error adding seller" + e.getMessage());
         }
     }
 
