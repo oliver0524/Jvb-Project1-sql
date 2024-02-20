@@ -44,8 +44,21 @@ public class ProductController {
         });
 
         api.get("/product", context -> {
-            ArrayList<ProductInfo> productList = (ArrayList<ProductInfo>) productService.getAllProducts();
-            context.json(productList);
+            String productName = context.queryParam("like");
+            try {
+                if (productName != null && !productName.isEmpty()) {
+                    List<ProductInfo> p = productService.getProductByPartialName(productName);
+                    context.json(p);
+                    context.status(200);
+                } else {
+                    List<ProductInfo> p = productService.getAllProducts();
+                    context.json(p);
+                    context.status(200);
+                }
+            }catch(ProductInfoException e){
+                context.result(e.getMessage());
+                context.status(400);
+        }
         });
 
         api.post("/seller", context -> {
@@ -147,6 +160,7 @@ public class ProductController {
                 ProductInfo p = om.readValue(context.body(), ProductInfo.class);
                 p.setId(id);
                 productService.updateProductById(p);
+                System.out.println("from Controller: " + p);
                 context.json(p);
                 context.status(200);
             }catch(ProductInfoException e){

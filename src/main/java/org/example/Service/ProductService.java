@@ -60,6 +60,7 @@ public class ProductService {
                 Application.log.warn("ADD: Price is <= 0: " + p.getPrice());
                 throw new ProductInfoException("Product price should be greater than 0");
             } else if (productDAO.getProductByName(p.getName()) != null){
+                System.out.println("from Input Validate: " + p);
                 Application.log.warn("ADD: Product name is duplicate: " + p.getName());
                 throw new ProductInfoException("Product name already exists");
            } else if (sellertDAO.getSellerByName(p.getSellername()) == null){
@@ -88,6 +89,16 @@ public class ProductService {
             throw new ProductInfoException("Product is not found");
         } else {
             return p;
+        }
+    }
+
+    /** This method handles the 'GET' by partial product_name.  */
+    public List<ProductInfo> getProductByPartialName(String name) throws ProductInfoException {
+        List<ProductInfo> productList = productDAO.getProductByPartialName(name);
+        if (productList == null) {
+            throw new ProductInfoException("No products found");
+        } else {
+            return productList;
         }
     }
 
@@ -127,10 +138,13 @@ public class ProductService {
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
         if ((productDAO.getProductById(p.getId()) != null) && inputValuesValidated(p)) {
             productDAO.updateProductById(p);
+            System.out.println("from Service: " + p);
             Application.log.info("UPDATE: product is modified: " + p);
             return p;
+        } else {
+            throw new ProductInfoException("Product is not updated: " + p);
         }
-        return null;
+        //return null;
     }
 
 

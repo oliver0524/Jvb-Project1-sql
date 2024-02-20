@@ -33,8 +33,6 @@ public class ProductDAO {
                 p.setId(generatedId);
                 return p;
             }
-        }catch (SQLIntegrityConstraintViolationException e){
-            e.printStackTrace();
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -88,12 +86,33 @@ public class ProductDAO {
                 double price= rs.getInt("price");
                 String sellername = rs.getString("sold_by");
                 ProductInfo p = new ProductInfo(id, name, price, sellername);
+                System.out.println("from DAO Product by Name: " + p);
                 return p;
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<ProductInfo> getProductByPartialName(String name){
+        List<ProductInfo> resultProducts = new ArrayList<>();
+        try {
+            PreparedStatement ps = conn.prepareStatement("select * from PRODUCTS where product_name like ?");
+            ps.setString(1, name + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("product_id");
+                String fullName = rs.getString("product_name");
+                double price = rs.getInt("price");
+                String sellername = rs.getString("sold_by");
+                ProductInfo p = new ProductInfo(id, fullName, price, sellername);
+                resultProducts.add(p);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return resultProducts;
     }
 
     public List<ProductInfo> getProductBySeller(String sname){
@@ -124,6 +143,7 @@ public class ProductDAO {
             ps.setInt(3, p.getId());
             int rs = ps.executeUpdate();
             if (rs == 1){
+                System.out.println("from DAO: " + p);
                 return p;
             }
         }catch(SQLException e){
