@@ -19,7 +19,6 @@ public class ProductDAO {
     public ProductInfo insertProduct(ProductInfo p) throws ProductInfoException {
         //List<ProductInfo> newProduct = new ArrayList<>();
         try {
-            //System.out.println("Connection status Product: " + conn);
             PreparedStatement ps = conn.prepareStatement("insert into PRODUCTS" +
                     " (product_name, price, sold_by) " +
                     "values (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -29,7 +28,6 @@ public class ProductDAO {
             ps.executeUpdate();
             // retrieve automatically generated key
             ResultSet generatedKeys = ps.getGeneratedKeys();
-            //System.out.println("generatedKeys: " + generatedKeys);
             if (generatedKeys.next()) {
                 int generatedId = generatedKeys.getInt(1);
                 p.setId(generatedId);
@@ -89,7 +87,6 @@ public class ProductDAO {
                 double price= rs.getInt("price");
                 String sellername = rs.getString("sold_by");
                 ProductInfo p = new ProductInfo(id, name, price, sellername);
-                //System.out.println("from DAO Product by Name: " + p);
                 return p;
             }
         }catch(SQLException e){
@@ -148,7 +145,6 @@ public class ProductDAO {
             ps.setInt(4, p.getId());
             int rs = ps.executeUpdate();
             if (rs == 1){
-                //System.out.println("from DAO: " + p);
                 return p;
             }
         }catch(SQLException e){
