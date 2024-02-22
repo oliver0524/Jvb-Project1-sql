@@ -9,7 +9,7 @@ CREATE TABLE SELLERS (
 );
 CREATE TABLE PRODUCTS (
     product_id int auto_increment primary key,
-    product_name varchar(255) not null,
+    product_name varchar(255) unique not null,
     price double,
     sold_by varchar(255) references SELLERS(seller_name)
 );

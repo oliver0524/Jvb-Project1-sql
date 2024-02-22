@@ -160,7 +160,7 @@ public class ProductController {
                 ProductInfo p = om.readValue(context.body(), ProductInfo.class);
                 p.setId(id);
                 productService.updateProductById(p);
-                System.out.println("from Controller: " + p);
+                //System.out.println("from Controller: " + p);
                 context.json(p);
                 context.status(200);
             }catch(ProductInfoException e){

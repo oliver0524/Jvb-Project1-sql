@@ -925,3 +925,126 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\00
 CREATE TABLE SELLERS (
     seller_name varchar(255) unique key
 ) [42001-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    sold_by varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    sold_by varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from Products [42102-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_id = ? [42102-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:27:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, sold_by) values (?, ?, ?) [42102-214]
+2024-02-22 14:28:51 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    sold_by varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    sold_by varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:29:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, sold_by) values (?, ?, ?) [42102-214]
+2024-02-22 14:30:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    seller_name varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    seller_name varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:31:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    sold_by varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    sold_by varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:31:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:31:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:32:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:32:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, sold_by) values (?, ?, ?) [42102-214]
+2024-02-22 14:33:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    seller_name varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    seller_name varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:34:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:34:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, sold_by) values (?, ?, ?) [42102-214]
+2024-02-22 14:34:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:34:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, sold_by) values (?, ?, ?) [42102-214]
+2024-02-22 14:35:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "\000d\000aCREATE TABLE PRODUCTS (\000d\000a    product_id int auto_increment primary key,\000d\000a    product_name varchar(255) unique not null,\000d\000a    price double,\000d\000a    seller_name varchar(255) [*]foreign key references SELLERS(seller_name)\000d\000a)"; expected "ARRAY, INVISIBLE, VISIBLE, NOT NULL, NULL, AS, DEFAULT, GENERATED, ON UPDATE, NOT NULL, NULL, AUTO_INCREMENT, DEFAULT ON NULL, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, NULL, CHECK, REFERENCES, AUTO_INCREMENT, ,, )"; SQL statement:
+
+CREATE TABLE PRODUCTS (
+    product_id int auto_increment primary key,
+    product_name varchar(255) unique not null,
+    price double,
+    seller_name varchar(255) foreign key references SELLERS(seller_name)
+) [42001-214]
+2024-02-22 14:35:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:35:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, seller_name) values (?, ?, ?) [42102-214]
+2024-02-22 14:35:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:35:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, seller_name) values (?, ?, ?) [42102-214]
+2024-02-22 14:35:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:35:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, seller_name) values (?, ?, ?) [42102-214]
+2024-02-22 14:35:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+select * from PRODUCTS where product_name = ? [42102-214]
+2024-02-22 14:35:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PRODUCTS" not found; SQL statement:
+insert into PRODUCTS (product_name, price, seller_name) values (?, ?, ?) [42102-214]

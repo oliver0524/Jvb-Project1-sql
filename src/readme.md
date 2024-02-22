@@ -1,23 +1,24 @@
-# This application is using javalin service to initiate a a web server. 
+# This application is using javalin service to initiate a web server. 
 # The application is handling two models, Products and Sellers through http requests
 
 # Product Model
 -  Product Model structure:
-  * Product Product Id (must be unique) 
+  * Product Product Id (Primary key) 
   * Product Name 
   * Price 
-  * Seller Name Seller Seller Name (must be unique)
+  * Seller Name (foreign key to the Seller table)
 
 -  Product Service requests:
   * GET all products
-  * GET by product-id
-    * We should get a 404 error when we try to access a non-existed product
+  * GET by product-id (404 for a non-existed product)
+  * GET by a partial product name
+  * GET products by seller
   * POST product 
     * Add a single product
     * Product ids should be non-null and unique
     * Product names should be non-null
     * Price should be over 0
-    * Seller name should refer to an actually existing seller
+    * Seller name should refer to an actually existing seller (referential integrity)
   * PUT by product-id
     * Update a single product
     * Product names should be non-null

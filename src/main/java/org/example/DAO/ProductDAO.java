@@ -1,5 +1,7 @@
 package org.example.DAO;
 
+import org.example.Exception.ProductInfoException;
+import org.example.Exception.SellerException;
 import org.example.Model.ProductInfo;
 
 import java.sql.*;
@@ -14,7 +16,7 @@ public class ProductDAO {
     }
 
 
-    public ProductInfo insertProduct(ProductInfo p){
+    public ProductInfo insertProduct(ProductInfo p) throws ProductInfoException {
         //List<ProductInfo> newProduct = new ArrayList<>();
         try {
             //System.out.println("Connection status Product: " + conn);
@@ -27,7 +29,7 @@ public class ProductDAO {
             ps.executeUpdate();
             // retrieve automatically generated key
             ResultSet generatedKeys = ps.getGeneratedKeys();
-            System.out.println("generatedKeys: " + generatedKeys);
+            //System.out.println("generatedKeys: " + generatedKeys);
             if (generatedKeys.next()) {
                 int generatedId = generatedKeys.getInt(1);
                 p.setId(generatedId);
@@ -35,6 +37,7 @@ public class ProductDAO {
             }
         }catch(SQLException e){
             e.printStackTrace();
+            throw new ProductInfoException("Error inserting product " + e.getMessage());
         }
         return null;
     }
@@ -86,7 +89,7 @@ public class ProductDAO {
                 double price= rs.getInt("price");
                 String sellername = rs.getString("sold_by");
                 ProductInfo p = new ProductInfo(id, name, price, sellername);
-                System.out.println("from DAO Product by Name: " + p);
+                //System.out.println("from DAO Product by Name: " + p);
                 return p;
             }
         }catch(SQLException e){
@@ -134,20 +137,23 @@ public class ProductDAO {
         return resultProducts;
     }
 
-    public ProductInfo updateProductById(ProductInfo p){
+    public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
         try{
-            PreparedStatement ps = conn.prepareStatement("update PRODUCTS set price = ?, sold_by = ? " +
+            PreparedStatement ps = conn.prepareStatement("update PRODUCTS set product_name = ?, " +
+                    "price = ?, sold_by = ? " +
                     "where product_id = ?");
-            ps.setDouble(1, p.getPrice());
-            ps.setString(2, p.getSellername());
-            ps.setInt(3, p.getId());
+            ps.setString(1, p.getName());
+            ps.setDouble(2, p.getPrice());
+            ps.setString(3, p.getSellername());
+            ps.setInt(4, p.getId());
             int rs = ps.executeUpdate();
             if (rs == 1){
-                System.out.println("from DAO: " + p);
+                //System.out.println("from DAO: " + p);
                 return p;
             }
         }catch(SQLException e){
             e.printStackTrace();
+            throw new ProductInfoException("Error updating product " + e.getMessage());
         }
         return null;
     }
