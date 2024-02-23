@@ -4,7 +4,6 @@ import org.example.Exception.SellerException;
 import org.example.Model.Seller;
 
 import java.sql.*;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -29,15 +28,18 @@ public class SellerDAO {
         return SellerResults;
     }
 
-    public void insertSeller(Seller s) throws SellerException {
+    public void insertSeller(Seller s) {
         try{
             PreparedStatement ps = conn.prepareStatement("insert into " +
                     "Sellers (seller_name) values (?)");
             ps.setString(1, s.getSellername());
             ps.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLIntegrityConstraintViolationException e) {
             e.printStackTrace();
-            throw new SellerException("Error adding seller" + e.getMessage());
+            //throw new SellerException("\nDuplicate entry: " + e.getMessage());
+        }catch(SQLException  e){
+            e.printStackTrace();
+            //throw new SellerException("\nError adding seller: " + e.getMessage());
         }
     }
 

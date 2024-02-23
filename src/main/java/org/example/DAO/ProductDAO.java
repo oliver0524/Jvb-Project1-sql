@@ -1,7 +1,6 @@
 package org.example.DAO;
 
 import org.example.Exception.ProductInfoException;
-import org.example.Exception.SellerException;
 import org.example.Model.ProductInfo;
 
 import java.sql.*;
@@ -115,24 +114,6 @@ public class ProductDAO {
         return resultProducts;
     }
 
-    public List<ProductInfo> getProductBySeller(String sname){
-        List<ProductInfo> resultProducts = new ArrayList<>();
-        try{
-            PreparedStatement ps = conn.prepareStatement("select * from PRODUCTS where sold_by = ?");
-            ps.setString(1, sname);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                int id = rs.getInt("product_id");
-                double price= rs.getInt("price");
-                String name = rs.getString("product_name");
-                ProductInfo p = new ProductInfo(id, name, price, sname);
-                resultProducts.add(p);
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return resultProducts;
-    }
 
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
         try{

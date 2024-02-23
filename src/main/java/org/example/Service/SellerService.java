@@ -30,19 +30,18 @@ public class SellerService {
      * at least one variable did not pass the validation test
      */
     public void addSeller(Seller s) throws SellerException {
-        try {
-            Application.log.info("ADD: Attempting to add a Seller:" + s);
+        Application.log.info("ADD: Attempting to add a Seller:" + s);
 
-            if (s.getSellername().isBlank()) {
-                Application.log.warn("ADD: Seller name is missing: " + s.getSellername());
-                throw new SellerException("Seller name cannot be blank");
-            } else {
-                sellerDAO.insertSeller(s);
-            }
-        } catch (SellerException e) {
-             throw new SellerException("Error adding seller: " + e.getMessage());
-            }
+        if (s.getSellername().isBlank()) {
+            Application.log.warn("ADD: Seller name is missing: " + s.getSellername());
+            throw new SellerException("Seller name cannot be blank");
+        } else if (sellerDAO.getSellerByName(s.getSellername()) != null) {
+            Application.log.warn("ADD: Seller name is duplicate: " + s.getSellername());
+            throw new SellerException("Seller name already exists ");
+        } else {
+            sellerDAO.insertSeller(s);
         }
+    }
 
     /**
      * This method handles the 'view' action and displays all Seller objects from the Seller Set
@@ -54,9 +53,10 @@ public class SellerService {
     }
 
     public String getSellerByName(String name) throws SellerException {
+        Application.log.info("VIEW: Searching for a seller: " + name);
         String s = sellerDAO.getSellerByName(name);
         if (s == null) {
-            throw new SellerException("No Seller " + s + " found");
+            throw new SellerException("No Seller found ");
         } else {
             return s;
         }

@@ -8,6 +8,7 @@ import org.example.Model.Seller;
 import org.example.Service.ProductService;
 import org.example.Service.SellerService;
 import org.example.Util.ConnectionSingleton;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,17 +28,16 @@ public class ProductServiceTest {
 
     ProductService ProductService;
     SellerService SellerService;
-    //long id = (long) (Math.random() * Long.MAX_VALUE);
 
     @Mock
-    private ProductDAO productDAO;
+  ProductDAO productDAO;
     @Mock
-    private SellerDAO sellerDAO;
+  SellerDAO sellerDAO;
 
     /** Instantiate an object before each test */
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        //MockitoAnnotations.initMocks(this);
         Connection conn = ConnectionSingleton.getConnection();
         sellerDAO = new SellerDAO(conn);
         productDAO = new ProductDAO(conn);
@@ -166,6 +166,25 @@ public class ProductServiceTest {
             Application.log.info("Caught SellerException: " + e.getMessage());
         }
     }
+    /** When a seller by name is not found, the Seller Exception should be thrown.*/
+    @Test
+    public void testGetSellerByName() throws SellerException {
+        Seller s1 = new Seller();
+        s1.setSellername("SellerName1");
+        SellerService.addSeller(s1);
+
+        String s2 = "SellerName2";
+        try {
+            // if the below method DOES NOT throw an exception, the Assert.fail method is called
+            SellerService.getSellerByName(s2);
+            Assert.fail("The Exception is not thrown when search by Seller is not successful");
+        } catch (SellerException e) {
+            // Log the exception details
+            Application.log.info("Caught SellerException: " + e.getMessage());
+        }
+    }
+
+
 
     /** Test if appropriate messaging is displayed when a non-existent Seller is provided in the Product service*/
     @Test
@@ -182,24 +201,78 @@ public class ProductServiceTest {
         try {
             // if no errors are produced when the non-existent Seller is added, the Assert.fail method is called
             ProductService.addProduct(p1);
+            Assert.fail("The Exception is not thrown when non-existent Seller is added to Product");
         }catch (ProductInfoException e) {
             // Log the exception details
             Application.log.info("Caught ProductInfoException: " + e.getMessage());
         }
     }
 
+
     /** Test if GET is called on a non-existent product-id */
     @Test
-    public void testInvlaidProductId() {
+    public void testInvalidProductId() {
         // Arrange
+        int id = 99;
 
         try {
             // if no errors are produced when a GET by a non-existent product id is performed, the Assert.fail method is called
-            ProductService.getProductById(99);
-            Assert.fail("The Exception is not thrown when a Search by a non-existent product id is performed");
+            ProductService.getProductById(id);
+            Assert.fail("The Exception is not thrown when searched by a non-existent product id");
         } catch (ProductInfoException e) {
             // Log the exception details
             Application.log.info("Caught ProductInfoException for a non-existent product-id: " + e.getMessage());
         }
     }
+
+    @Test
+    public void testGetProductByPartialName() throws ProductInfoException, SellerException {
+        // Arrange
+        Seller s1 = new Seller();
+        s1.setSellername("SellerName");
+        SellerService.addSeller(s1);
+
+        ProductInfo p1 = new ProductInfo();
+        p1.setName("Product1");
+        p1.setSellername("SellerName");
+        p1.setPrice(10.0);
+        ProductService.addProduct(p1);
+
+        // Act & Assert
+        try {
+            ProductService.getProductByPartialName("none");
+            Assert.fail("Expected ProductInfoException for a partial search");
+        } catch (ProductInfoException e) {
+            Application.log.info("Caught ProductInfoException for a partial product search: ", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testUpdateProductById() throws ProductInfoException, SellerException {
+        // Arrange
+        Seller s1 = new Seller();
+        s1.setSellername("SellerName");
+        SellerService.addSeller(s1);
+
+        ProductInfo p1 = new ProductInfo();
+        p1.setName("Product3");
+        p1.setSellername("SellerName");
+        p1.setPrice(20.0);
+        p1.setId(99);
+        ProductService.addProduct(p1);
+
+        // Act & Assert
+        try {
+            ProductService.updateProductById(p1);
+            Assert.fail("Expected ProductInfoException for an update product by id");
+        } catch (ProductInfoException e) {
+            Application.log.info("Caught ProductInfoException for an update product by id: ", e.getMessage());
+        }
+    }
+
+    @After
+    public void dbReset(){
+        ConnectionSingleton.resetTestDatabase();
+    }
+
 }

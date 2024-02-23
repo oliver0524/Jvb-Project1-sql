@@ -94,25 +94,14 @@ public class ProductService {
     /** This method handles the 'GET' by partial product_name.  */
     public List<ProductInfo> getProductByPartialName(String name) throws ProductInfoException {
         List<ProductInfo> productList = productDAO.getProductByPartialName(name);
-        if (productList == null) {
+        if (productList.isEmpty()) {
             throw new ProductInfoException("No products found");
         } else {
             return productList;
         }
     }
 
-    /** This method handles the 'GET' products by seller  */
-    public List<ProductInfo> getProductBySeller(String sname) throws ProductInfoException {
-        List<ProductInfo> productList = productDAO.getProductBySeller(sname);
-        if (productList == null) {
-            throw new ProductInfoException("No products found for this seller: " + sname);
-        } else {
-            Application.log.info("VIEW: List of all Products seller: "+ sname);
-            return productList;
-        }
-    }
-
-    /** This method handles the 'GET' action and displays all ProductInfo objects from
+      /** This method handles the 'GET' action and displays all ProductInfo objects from
      * the Productinfo list */
     public List<ProductInfo> getAllProducts(){
         List<ProductInfo> productList = productDAO.getAllProducts();

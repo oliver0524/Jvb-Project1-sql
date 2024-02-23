@@ -10,6 +10,7 @@ import org.example.Model.Seller;
 import org.example.Service.ProductService;
 import org.example.Service.SellerService;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,8 +40,21 @@ public class ProductController {
                 }
         );
         api.get("/seller", context -> {
-            Set<String> sellerSet = sellerService.getAllSellers();
-            context.json(sellerSet);
+            String sellerName = context.queryParam("name");
+            try {
+                if (sellerName != null && !sellerName.isEmpty()) {
+                    String s = sellerService.getSellerByName(sellerName);
+                    context.json(s);
+                    context.status(200);
+                } else {
+                    Set<String> sellerSet = sellerService.getAllSellers();
+                    context.json(sellerSet);
+                    context.status(200);
+                }
+            }catch(SellerException e){
+                context.result(e.getMessage());
+                context.status(400);
+            }
         });
 
         api.get("/product", context -> {
@@ -74,18 +88,6 @@ public class ProductController {
             }
         });
 
-        /** If seller name is found, respond with status 200; otherwise respond with status 404 */
-        api.get("seller/{name}", context -> {
-            try{
-                String nm = String.valueOf((context.pathParam("name")));
-                String seller = sellerService.getSellerByName(nm);
-                context.json(seller);
-                context.status(200);
-            }catch(SellerException e){
-                context.result(e.getMessage());
-                context.status(400);
-            }
-        });
 
         api.post("/product", context -> {
             try{
@@ -111,32 +113,6 @@ public class ProductController {
                 Integer id = Integer.valueOf((context.pathParam("id")));
                 ProductInfo p = productService.getProductById(id);
                 context.json(p);
-                context.status(200);
-            }catch(ProductInfoException e){
-                context.result(e.getMessage());
-                context.status(400);
-            }
-        });
-
-        /** If product name is found, respond with status 200; otherwise respond with status 404 */
-        api.get("productname/{name}", context -> {
-            try{
-                String nm = (context.pathParam("name"));
-                ProductInfo p = productService.getProductByName(nm);
-                context.json(p);
-                context.status(200);
-            }catch(ProductInfoException e){
-                context.result(e.getMessage());
-                context.status(400);
-            }
-        });
-
-        /** List prodducts by seller; If found, respond with status 200; otherwise respond with status 404 */
-        api.get("productbyseller/{sname}", context -> {
-            try{
-                String sellerName = (context.pathParam("sname"));
-                List<ProductInfo> productList = productService.getProductBySeller(sellerName);
-                context.json(productList);
                 context.status(200);
             }catch(ProductInfoException e){
                 context.result(e.getMessage());
