@@ -14,7 +14,7 @@ public class ProductDAO {
         this.conn = conn;
     }
 
-
+    /** This method handles the call to a db with sql - insert a row into PRODUCTS */
     public ProductInfo insertProduct(ProductInfo p) throws ProductInfoException {
         //List<ProductInfo> newProduct = new ArrayList<>();
         try {
@@ -38,6 +38,8 @@ public class ProductDAO {
         }
         return null;
     }
+
+    /** This method handles the call to a db with sql - select all from PRODUCTS */
     public List<ProductInfo> getAllProducts(){
         List<ProductInfo> resultProducts = new ArrayList<>();
         try{
@@ -57,6 +59,7 @@ public class ProductDAO {
         return resultProducts;
     }
 
+    /** This method handles the call to a db with sql - select a record with a given id from PRODUCTS */
     public ProductInfo getProductById(Integer id){
         try{
             PreparedStatement ps = conn.prepareStatement("select * from PRODUCTS where product_id = ?");
@@ -76,6 +79,7 @@ public class ProductDAO {
         return null;
     }
 
+    /** This method handles the call to a db with sql - select a record with a given name from PRODUCTS. Needed for validations */
     public ProductInfo getProductByName(String name){
         try{
             PreparedStatement ps = conn.prepareStatement("select * from PRODUCTS where product_name = ?");
@@ -94,6 +98,7 @@ public class ProductDAO {
         return null;
     }
 
+    /** This method handles the call to a db with sql - select a record with a given Partial name from PRODUCTS */
     public List<ProductInfo> getProductByPartialName(String name){
         List<ProductInfo> resultProducts = new ArrayList<>();
         try {
@@ -115,6 +120,7 @@ public class ProductDAO {
     }
 
 
+    /** This method handles the call to a db with sql - update Products for a given id */
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
         try{
             PreparedStatement ps = conn.prepareStatement("update PRODUCTS set product_name = ?, " +
@@ -135,6 +141,7 @@ public class ProductDAO {
         return null;
     }
 
+    /** This method handles the call to a db with sql - delete a record from Products for a given id */
     public boolean deleteProductById(Integer id){
         try{
             PreparedStatement ps = conn.prepareStatement("delete from PRODUCTS where product_id = ?");

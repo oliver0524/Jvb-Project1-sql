@@ -25,10 +25,8 @@ public class SellerService {
         this.sellerDAO = sellerDAO;
     }
 
-    /**
-     * This method: handles the Seller addition and throws the SellerException at the end if
-     * at least one variable did not pass the validation test
-     */
+    /** This method handles the Seller addition and throws the SellerException if it does not pass validations */
+
     public void addSeller(Seller s) throws SellerException {
         Application.log.info("ADD: Attempting to add a Seller:" + s);
 
@@ -43,15 +41,14 @@ public class SellerService {
         }
     }
 
-    /**
-     * This method handles the 'view' action and displays all Seller objects from the Seller Set
-     */
+    /**  This method handles the 'view' action and displays all Seller objects from the Seller Set */
     public Set<String> getAllSellers() {
         Set<String> sellerNames = sellerDAO.getAllSellers();
         Application.log.info("VIEW: List of all Sellers in the collection: " + sellerNames);
         return sellerNames;
     }
 
+    /**  This method handles the 'view' action to retrieve a single seller by name */
     public String getSellerByName(String name) throws SellerException {
         Application.log.info("VIEW: Searching for a seller: " + name);
         String s = sellerDAO.getSellerByName(name);

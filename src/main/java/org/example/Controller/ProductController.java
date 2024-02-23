@@ -39,6 +39,8 @@ public class ProductController {
                     context.result("the server is UP");
                 }
         );
+
+        /** Endpoint to GET either all records or through a param NAME a search by a seller name */
         api.get("/seller", context -> {
             String sellerName = context.queryParam("name");
             try {
@@ -57,6 +59,7 @@ public class ProductController {
             }
         });
 
+        /** Endpoint to GET either all records from PRODUCTS or through a param LIKE a search by a partial product name */
         api.get("/product", context -> {
             String productName = context.queryParam("like");
             try {
@@ -75,6 +78,7 @@ public class ProductController {
         }
         });
 
+        /** Endpoint to POST a new record to Sellers. If seller is added, return 200; otherwise 401 */
         api.post("/seller", context -> {
             try{
                 ObjectMapper om = new ObjectMapper();
@@ -88,7 +92,7 @@ public class ProductController {
             }
         });
 
-
+        /** Endpoint to POST a new record to Products. If product is added, return 200; otherwise 401 */
         api.post("/product", context -> {
             try{
                 ObjectMapper om = new ObjectMapper();

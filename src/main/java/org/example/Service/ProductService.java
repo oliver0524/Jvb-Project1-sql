@@ -34,8 +34,8 @@ public class ProductService {
     }
 
 
-    /** This method: handles the Product addition (POST) and throws the ProductInfoException at the end if
-     * either if Product or Seller name is blank or Product name already exists  */
+    /** This method handles the Product addition (POST) and throws the ProductInfoException if
+     * validations are not passed  */
     public ProductInfo addProduct(ProductInfo p) throws ProductInfoException {
 
         if (inputValuesValidated(p)) {
@@ -64,14 +64,13 @@ public class ProductService {
                 throw new ProductInfoException("Product name already exists");
            } else if (sellertDAO.getSellerByName(p.getSellername()) == null){
                 Application.log.warn("ADD: Non-existent seller name: " + p.getSellername());
-           throw new ProductInfoException("Seller does not exist in the Seller set");
+                throw new ProductInfoException("Seller does not exist in the Seller set");
         } else {
             return true;
         }
     }
 
-    /** This method handles the 'GET' by product_id. The product-id is obtained from a corresponding
-     * post request (it's a previously randomly generated number) */
+    /** This method handles the 'GET' by product_id. The product-id is obtained from a corresponding post request */
     public ProductInfo getProductById(Integer id) throws ProductInfoException {
         ProductInfo p = productDAO.getProductById(id);
         if (p == null) {
@@ -81,15 +80,6 @@ public class ProductService {
         }
     }
 
-    /** This method handles the 'GET' by product_name.  */
-    public ProductInfo getProductByName(String name) throws ProductInfoException {
-        ProductInfo p = productDAO.getProductByName(name);
-        if (p == null) {
-            throw new ProductInfoException("Product is not found");
-        } else {
-            return p;
-        }
-    }
 
     /** This method handles the 'GET' by partial product_name.  */
     public List<ProductInfo> getProductByPartialName(String name) throws ProductInfoException {
@@ -101,8 +91,7 @@ public class ProductService {
         }
     }
 
-      /** This method handles the 'GET' action and displays all ProductInfo objects from
-     * the Productinfo list */
+      /** This method handles the 'GET' action and displays all ProductInfo objects from the Productinfo list */
     public List<ProductInfo> getAllProducts(){
         List<ProductInfo> productList = productDAO.getAllProducts();
         Application.log.info("VIEW: List of all Products in the collection: "+ productList);
@@ -110,8 +99,7 @@ public class ProductService {
     }
 
 
-    /** This method handles the 'DELETE' action by product-id. The product-id is obtained from a corresponding
-     * post request (it's a randomly generated number) */
+    /** This method handles the 'DELETE' action by product-id. The product-id is obtained from a corresponding post request */
     public void deleteProductById(Integer id){
         ProductInfo p = productDAO.getProductById(id);
         if (p != null){
@@ -121,8 +109,7 @@ public class ProductService {
         }
     }
 
-    /** This method handles the 'PUT' action by product-id. The product-id is obtained from a corresponding
-     * post request (it's a randomly generated number) */
+    /** This method handles the 'PUT' action by product-id. The product-id is obtained from a corresponding post request  */
     public ProductInfo updateProductById(ProductInfo p) throws ProductInfoException {
         if ((productDAO.getProductById(p.getId()) != null) && inputValuesValidated(p)) {
             productDAO.updateProductById(p);

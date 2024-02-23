@@ -166,6 +166,7 @@ public class ProductServiceTest {
             Application.log.info("Caught SellerException: " + e.getMessage());
         }
     }
+
     /** When a seller by name is not found, the Seller Exception should be thrown.*/
     @Test
     public void testGetSellerByName() throws SellerException {
@@ -183,7 +184,6 @@ public class ProductServiceTest {
             Application.log.info("Caught SellerException: " + e.getMessage());
         }
     }
-
 
 
     /** Test if appropriate messaging is displayed when a non-existent Seller is provided in the Product service*/
@@ -208,7 +208,6 @@ public class ProductServiceTest {
         }
     }
 
-
     /** Test if GET is called on a non-existent product-id */
     @Test
     public void testInvalidProductId() {
@@ -225,6 +224,7 @@ public class ProductServiceTest {
         }
     }
 
+    /** When a Product search by a partial name is not found, the Product Exception should be thrown.*/
     @Test
     public void testGetProductByPartialName() throws ProductInfoException, SellerException {
         // Arrange
@@ -247,6 +247,7 @@ public class ProductServiceTest {
         }
     }
 
+    /** When an update by id in Products is not successful, the Product Exception should be thrown.*/
     @Test
     public void testUpdateProductById() throws ProductInfoException, SellerException {
         // Arrange
@@ -270,6 +271,7 @@ public class ProductServiceTest {
         }
     }
 
+    /** Reset a database*/
     @After
     public void dbReset(){
         ConnectionSingleton.resetTestDatabase();

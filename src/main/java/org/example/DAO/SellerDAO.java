@@ -13,6 +13,7 @@ public class SellerDAO {
         this.conn = conn;
     }
 
+    /** This method handles the call to a db with sql - select all sellers */
     public Set<String> getAllSellers(){
         Set<String> SellerResults = new LinkedHashSet<>();
         try {
@@ -28,21 +29,20 @@ public class SellerDAO {
         return SellerResults;
     }
 
-    public void insertSeller(Seller s) {
+    /** This method handles the call to a db with sql - insert a row into Sellers */
+    public void insertSeller(Seller s) throws SellerException {
         try{
             PreparedStatement ps = conn.prepareStatement("insert into " +
                     "Sellers (seller_name) values (?)");
             ps.setString(1, s.getSellername());
             ps.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
+        } catch(SQLException  e){
             e.printStackTrace();
-            //throw new SellerException("\nDuplicate entry: " + e.getMessage());
-        }catch(SQLException  e){
-            e.printStackTrace();
-            //throw new SellerException("\nError adding seller: " + e.getMessage());
+            throw new SellerException("\nError adding seller: " + e.getMessage());
         }
     }
 
+    /** This method handles the call to a db with sql - select a seller with a given name */
     public String getSellerByName(String s){
         try{
             PreparedStatement ps = conn.prepareStatement(
