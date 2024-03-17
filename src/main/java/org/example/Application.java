@@ -26,6 +26,7 @@ public class Application {
         ProductController productController = new ProductController(sellerService, productService);
 
         Javalin api = productController.getAPI();
+
         api.start(9002);
 
 

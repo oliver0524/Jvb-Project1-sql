@@ -14,6 +14,7 @@ import org.example.Service.SellerService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.example.Service.ProductService.*;
@@ -107,7 +108,7 @@ public class ProductController {
             }
         });
 
-        /** Endpoint to POST a new record to Products. If product is added, return 200; otherwise 401 */
+        /** Endpoint to POST a new record to Products. If product is added, return 201; otherwise 401 */
         api.post("/product", context -> {
             try{
                 ObjectMapper om = new ObjectMapper();
@@ -117,10 +118,11 @@ public class ProductController {
                 context.json(newProduct);
             }catch(JsonProcessingException e){
                 //e.printStackTrace();
+                context.json(Map.of("Error", e.getMessage())); // Wrap message in a JSON object
                 context.status(400);
             }catch(ProductInfoException e){
                 //e.printStackTrace();
-                context.result(e.getMessage());
+                context.json(Map.of("Error", e.getMessage())); // Wrap message in a JSON object
                 context.status(400);
             }
         });
@@ -158,7 +160,7 @@ public class ProductController {
                 context.json(p);
                 context.status(200);
             }catch(ProductInfoException e){
-                context.result(e.getMessage());
+                context.json(Map.of("Error", e.getMessage())); // Wrap message in a JSON object
                 context.status(400);
             }
         });
